@@ -70,7 +70,7 @@ class _CustomInputState extends State<CustomInput> {
           labelText: widget.label,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: inputBorderCorlor,
+              color: inputBorderColor,
               width: 1.0,
             ),
           ),

@@ -1,10 +1,9 @@
+import 'package:cvmakr/components/section-item.dart';
+import 'package:cvmakr/consts.dart';
+import 'package:cvmakr/screens/experiences/experiences.dart';
+import 'package:cvmakr/screens/personal_informations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cvmakr/consts.dart';
-import 'package:cvmakr/components/section-item.dart';
-import 'package:cvmakr/screens/personal_informations.dart';
-
-
 
 class HomePage extends StatelessWidget {
   static const String id = 'home';
@@ -62,12 +61,18 @@ class HomePage extends StatelessWidget {
                         iconName: Icons.person_outline,
                         onTap: () => Navigator.push(
                           context,
-                          CupertinoPageRoute(builder: (context) => PersonalInformations()),
+                          CupertinoPageRoute(
+                              builder: (context) => PersonalInformations()),
                         ),
                       ),
                       SectionItem(
                         title: 'Expériences',
                         iconName: Icons.domain,
+                        onTap: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => Experiences()),
+                        ),
                       ),
                       SectionItem(
                         title: 'Formations',
@@ -112,7 +117,7 @@ class HomePage extends StatelessWidget {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: () {
-              // to do
+              //data.save();
             },
           ),
         ),

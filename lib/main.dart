@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:cvmakr/screens/home.dart';
-import 'package:provider/provider.dart';
 import 'package:cvmakr/data/data.dart';
+import 'package:cvmakr/screens/home.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
 import 'screens/home.dart';
 
 Color primaryColor = Color(0xFF8B84FB);
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         future: Data.restoreData(),
         builder: (context, AsyncSnapshot<Data> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            print(snapshot.data);
             return Provider(
               create: (_) => snapshot.data,
               child: MaterialApp(

@@ -3,7 +3,7 @@ import 'package:cvmakr/consts.dart';
 
 class FormContainer extends StatelessWidget {
   String title;
-  Form child;
+  Widget child;
 
   FormContainer({this.title, this.child});
 
@@ -69,9 +69,7 @@ class FormContainer extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20))),
-                child: SingleChildScrollView(
-                  child: child,
-                ),
+                child: child,
               ),
             ),
           ],
