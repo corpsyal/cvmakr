@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cvmakr/components/custom-button.dart';
 import 'package:cvmakr/components/form-container.dart';
 import 'package:cvmakr/data/data.dart';
@@ -7,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/components/custom-input.dart';
 import 'package:provider/provider.dart';
+
 
 class PersonalInformations extends StatelessWidget {
   static const String id = 'personnal_infos';

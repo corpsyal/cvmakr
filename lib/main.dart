@@ -5,6 +5,8 @@ import 'package:cvmakr/screens/personal_informations.dart';
 import 'package:provider/provider.dart';
 import 'package:cvmakr/data/data.dart';
 
+import 'screens/home.dart';
+
 Color primaryColor = Color(0xFF8B84FB);
 //const String sharedKey = 'personal_infos';
 const String sharedKey = 'data';
@@ -12,8 +14,6 @@ const String sharedKey = 'data';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -26,19 +26,13 @@ class MyApp extends StatelessWidget {
               create: (_) => snapshot.data,
               child: MaterialApp(
                   title: 'Flutter Demo',
-                  theme: ThemeData(fontFamily: 'Metropolis', primaryColor: primaryColor),
-                  initialRoute: HomePage.id,
-                  routes: {
-                    HomePage.id: (context) => HomePage(),
-                    PersonalInformations.id: (context) => PersonalInformations()
-                  }),
+                  theme: ThemeData(
+                      fontFamily: 'Metropolis', primaryColor: primaryColor),
+                  home: HomePage()),
             );
-          }
-
-          else {
+          } else {
             return Container();
           }
         });
   }
 }
-

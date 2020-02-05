@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/components/section-item.dart';
 import 'package:cvmakr/screens/personal_informations.dart';
+
+
 
 class HomePage extends StatelessWidget {
   static const String id = 'home';
@@ -57,7 +60,10 @@ class HomePage extends StatelessWidget {
                       SectionItem(
                         title: 'Informations personnelles',
                         iconName: Icons.person_outline,
-                        route: PersonalInformations.id,
+                        onTap: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(builder: (context) => PersonalInformations()),
+                        ),
                       ),
                       SectionItem(
                         title: 'Expériences',
