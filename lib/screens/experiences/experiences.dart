@@ -15,11 +15,17 @@ class Experiences extends StatelessWidget {
     //print(data.experiences);
     return FormContainer(
         title: "Expériences",
-        child: true
+        child: data.experiences.length > 0
             ? RaisedButton(
                 onPressed: () {
+                  data.experiences.removeAt(0);
+                  print(data.experiences);
+                  data.save();
+                  /*
+
                   print(data.toJson());
                   print(jsonDecode(data.toJson()));
+                   */
                 },
               )
             : EmptyExperiences());

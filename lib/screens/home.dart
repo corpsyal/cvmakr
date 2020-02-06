@@ -4,12 +4,17 @@ import 'package:cvmakr/screens/experiences/experiences.dart';
 import 'package:cvmakr/screens/personal_informations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:cvmakr/data/data.dart';
+import 'package:cvmakr/data/experience.dart';
 
 class HomePage extends StatelessWidget {
   static const String id = 'home';
 
   @override
   Widget build(BuildContext context) {
+    Data data = Provider.of<Data>(context);
+
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
@@ -117,7 +122,14 @@ class HomePage extends StatelessWidget {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: () {
-              //data.save();
+              data.experiences.add(Experience(
+                job: "un job",
+                company: "une company",
+                from: DateTime.now(),
+                to: DateTime.now(),
+                description: "une description de test"
+              ));
+              data.save();
             },
           ),
         ),
