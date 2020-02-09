@@ -1,19 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:cvmakr/consts.dart';
+import 'package:flutter/material.dart';
 
 class CustomInput extends StatefulWidget {
   String initialValue;
   String label;
   int maxLines;
   Function onChange;
+  Function onTap;
   TextInputType keyboardType;
+  bool enabled = true;
 
   CustomInput(
       {this.label,
       this.maxLines = 1,
       this.initialValue,
       this.onChange,
-      this.keyboardType});
+      this.onTap,
+      this.keyboardType,
+      this.enabled});
 
   @override
   _CustomInputState createState() => _CustomInputState();
@@ -55,6 +59,8 @@ class _CustomInputState extends State<CustomInput> {
       padding: EdgeInsets.only(top: 5),
       margin: EdgeInsets.only(bottom: 16),
       child: TextField(
+        enabled: widget.enabled,
+        onTap: widget.onTap,
         keyboardType: widget.keyboardType,
         onChanged: widget.onChange,
         maxLines: widget.maxLines,

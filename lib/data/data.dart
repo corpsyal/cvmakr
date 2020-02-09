@@ -1,8 +1,11 @@
 import 'dart:convert';
-import 'experience.dart';
+
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Data {
+import 'experience.dart';
+
+class Data extends ChangeNotifier {
   static const sharedKey = 'data';
 
   String firstName;
@@ -32,7 +35,8 @@ class Data {
         email = json['email'],
         phone = json['phone'],
         aboutMe = json['aboutMe'],
-        experiences = List<Experience>.from((json['experiences'] ?? []).map((exp) => Experience.fromMap(exp)));
+        experiences = List<Experience>.from(
+            (json['experiences'] ?? []).map((exp) => Experience.fromMap(exp)));
 
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
@@ -45,9 +49,20 @@ class Data {
         'experiences': experiences
       };
 
-  void save() async {
+  void addExperience(Experience experience) {
+    experiences.add(experience);
+  }
+
+  void removeExperience(Experience experience) {
+    experiences.remove(experience);
+    notifyListeners();
+    save();
+  }
+
+  Future<void> save() async {
     SharedPreferences sharedInstance = await SharedPreferences.getInstance();
     await sharedInstance.setString(sharedKey, jsonEncode(this.toJson()));
+    notifyListeners();
   }
 
   static Future<Data> restoreData() async {
@@ -58,6 +73,7 @@ class Data {
       return Data.fromMap(decodedData);
     } catch (e) {
       print(e);
+      return Data.fromMap({});
     }
   }
 
@@ -66,4 +82,3 @@ class Data {
     preferences.clear();
   }
 }
-

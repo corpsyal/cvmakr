@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cvmakr/consts.dart';
+import 'package:flutter/material.dart';
 
 class FormContainer extends StatelessWidget {
   String title;
@@ -9,70 +9,65 @@ class FormContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [primaryColor, Colors.white],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: [0.3, 0.3],
+        ),
       ),
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Container(
-              color: primaryColor,
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Container(
-                padding: EdgeInsets.only(left: 20),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => Navigator.pop(context),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.chevron_left,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        title,
-                        //textAlign: TextAlign.center,
-                        style: TextStyle(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Container(
+                color: primaryColor,
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => Navigator.pop(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          Icons.chevron_left,
                           color: Colors.white,
-                          fontSize: 20.0,
+                          size: 30,
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          title,
+                          //textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              color: primaryColor,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    )),
-                height: 20,
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  child: child,
+                ),
               ),
-            ),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
-                child: child,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

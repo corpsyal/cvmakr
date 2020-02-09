@@ -1,12 +1,12 @@
 import 'package:cvmakr/components/section-item.dart';
 import 'package:cvmakr/consts.dart';
+import 'package:cvmakr/data/data.dart';
+import 'package:cvmakr/data/experience.dart';
 import 'package:cvmakr/screens/experiences/experiences.dart';
 import 'package:cvmakr/screens/personal_informations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cvmakr/data/data.dart';
-import 'package:cvmakr/data/experience.dart';
 
 class HomePage extends StatelessWidget {
   static const String id = 'home';
@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
                         iconName: Icons.person_outline,
                         onTap: () => Navigator.push(
                           context,
-                          CupertinoPageRoute(
+                          MaterialPageRoute(
                               builder: (context) => PersonalInformations()),
                         ),
                       ),
@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
                         iconName: Icons.domain,
                         onTap: () => Navigator.push(
                           context,
-                          CupertinoPageRoute(
+                          MaterialPageRoute(
                               builder: (context) => Experiences()),
                         ),
                       ),
@@ -123,12 +123,11 @@ class HomePage extends StatelessWidget {
             ),
             onPressed: () {
               data.experiences.add(Experience(
-                job: "un job",
-                company: "une company",
-                from: DateTime.now(),
-                to: DateTime.now(),
-                description: "une description de test"
-              ));
+                  job: "un job",
+                  company: "une company",
+                  from: DateTime.now(),
+                  to: DateTime.now(),
+                  description: "une description de test"));
               data.save();
             },
           ),
