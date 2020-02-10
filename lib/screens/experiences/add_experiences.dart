@@ -1,20 +1,49 @@
 import 'package:cvmakr/components/custom-button.dart';
+import 'package:cvmakr/components/custom-datetime-input.dart';
 import 'package:cvmakr/components/custom-input.dart';
 import 'package:cvmakr/components/form-container.dart';
 import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/data/experience.dart';
+import 'package:cvmakr/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class AddExperiences extends StatelessWidget {
+enum mode { add, edit }
+String getButtonLabel(mode m) {
+  String label;
+  switch (m) {
+    case mode.add:
+      label = "Ajouter";
+      break;
+    case mode.edit:
+      label = 'Modifier';
+      break;
+  }
+  return label;
+}
+
+class AddExperiences extends StatefulWidget {
   static const String id = 'add_experiences';
+
+  Experience experience;
+  mode experienceMode;
+
+  AddExperiences({Experience experience})
+      : this.experience = experience ?? Experience(),
+        this.experienceMode = experience != null ? mode.edit : mode.add;
+
+  @override
+  _AddExperiencesState createState() => _AddExperiencesState();
+}
+
+class _AddExperiencesState extends State<AddExperiences> {
+  final dateFormat = new DateFormat('MM/yyyy');
 
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
-    Experience experience = Experience();
-    //print(data.experiences);
+    print(widget.experience.from);
     return FormContainer(
       title: "Ajouter une expérience",
       child: SingleChildScrollView(
@@ -22,73 +51,57 @@ class AddExperiences extends StatelessWidget {
           children: <Widget>[
             CustomInput(
               label: "Poste",
+              initialValue: widget.experience.job,
               onChange: (String job) {
-                experience.job = job;
+                widget.experience.job = job;
               },
             ),
             CustomInput(
               label: "Entreprise",
+              initialValue: widget.experience.company,
               onChange: (String company) {
-                experience.company = company;
+                widget.experience.company = company;
               },
             ),
             Row(
               children: <Widget>[
-                Flexible(
-                    child: InkWell(
-                  onTap: () {
-                    DatePicker.showDatePicker(
-                      context,
-                      //locale: DATETIME_PICKER_LOCALE_DEFAULT,
-                      dateFormat: 'MMMM-yyyy',
-                      locale: DateTimePickerLocale.fr,
-                      onConfirm: (dateTime, _) {
-                        experience.from = dateTime;
-                      },
-                    );
-                  },
-                  child: IgnorePointer(
-                    child: CustomInput(
-                      label: "De",
-                    ),
-                  ),
-                )),
+                CustomDateTimeInput(
+                    label: "De",
+                    initialValue:
+                        capitalize(dateFormat.format(widget.experience.from)),
+                    onConfirm: (dateTime, _) {
+                      setState(() {
+                        widget.experience.from = dateTime;
+                      });
+                    }),
                 SizedBox(
                   width: 20,
                 ),
-                Flexible(
-                    child: InkWell(
-                  onTap: () {
-                    DatePicker.showDatePicker(
-                      context,
-                      //locale: DATETIME_PICKER_LOCALE_DEFAULT,
-                      dateFormat: 'MMMM-yyyy',
-                      locale: DateTimePickerLocale.fr,
-                      onConfirm: (dateTime, _) {
-                        experience.to = dateTime;
-                      },
-                    );
-                  },
-                  child: IgnorePointer(
-                    child: CustomInput(
-                      label: "Jusque",
-                    ),
-                  ),
-                ))
+                CustomDateTimeInput(
+                    label: "Jusque",
+                    initialValue:
+                        capitalize(dateFormat.format(widget.experience.to)),
+                    onConfirm: (dateTime, _) {
+                      setState(() {
+                        widget.experience.to = dateTime;
+                      });
+                    }),
               ],
             ),
             CustomInput(
               label: "Courte description",
               maxLines: 6,
+              initialValue: widget.experience.description,
               onChange: (String description) {
-                experience.description = description;
+                widget.experience.description = description;
               },
             ),
             CustomButton(
-              label: 'Ajouter',
+              label: getButtonLabel(widget.experienceMode),
               onPress: () async {
-                print(experience.toJson());
-                data.addExperience(experience);
+                print(widget.experience.toJson());
+                if (widget.experienceMode == mode.add)
+                  data.addExperience(widget.experience);
                 await data.save();
                 Navigator.pop(context);
               },

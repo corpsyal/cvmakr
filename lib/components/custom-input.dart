@@ -8,16 +8,19 @@ class CustomInput extends StatefulWidget {
   Function onChange;
   Function onTap;
   TextInputType keyboardType;
-  bool enabled = true;
+  bool controlledInput;
+  bool enabled;
 
-  CustomInput(
-      {this.label,
-      this.maxLines = 1,
-      this.initialValue,
-      this.onChange,
-      this.onTap,
-      this.keyboardType,
-      this.enabled});
+  CustomInput({
+    this.label,
+    this.maxLines = 1,
+    this.initialValue,
+    this.onChange,
+    this.onTap,
+    this.keyboardType,
+    this.controlledInput = false,
+    this.enabled = true,
+  });
 
   @override
   _CustomInputState createState() => _CustomInputState();
@@ -54,6 +57,8 @@ class _CustomInputState extends State<CustomInput> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.controlledInput) _editingController.text = widget.initialValue;
+
     return Container(
       //height: widget.maxLines == 1 ? 45 : null,
       padding: EdgeInsets.only(top: 5),

@@ -1,4 +1,6 @@
-class Experience {
+import 'package:flutter/material.dart';
+
+class Experience extends ChangeNotifier {
   String job;
   String company;
   DateTime from;
@@ -28,4 +30,15 @@ class Experience {
         'to': to.toString(),
         'description': description,
       };
+/*
+  void setFrom(DateTime from) {
+    this.from = from;
+    notifyListeners();
+  }
+
+  void setTo(DateTime to) {
+    this.to = to;
+    notifyListeners();
+  }
+  */
 }

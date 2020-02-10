@@ -2,6 +2,7 @@ import 'package:cvmakr/components/menu.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/data/experience.dart';
+import 'package:cvmakr/screens/experiences/add_experiences.dart';
 import 'package:cvmakr/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +26,14 @@ class ItemExperiences extends StatelessWidget {
         child: ListTile(
           trailing: Menu(onSelect: (menu value) {
             if (value == menu.remove) data.removeExperience(experience);
+            if (value == menu.edit)
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddExperiences(
+                          experience: experience,
+                        )),
+              );
           }),
           title: Align(
             alignment: Alignment.centerLeft,
