@@ -1,10 +1,10 @@
 import 'package:cvmakr/components/add-floatting-button.dart';
 import 'package:cvmakr/data/data.dart';
-import 'package:cvmakr/data/experience.dart';
 import 'package:cvmakr/screens/experiences/add_experiences.dart';
 import 'package:cvmakr/screens/experiences/item_experiences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reorderables/reorderables.dart';
 
 class SingleWrap extends StatelessWidget {
   Widget child;
@@ -37,16 +37,17 @@ class ListExperiences extends StatelessWidget {
     //print(data.experiences);
     return Scaffold(
         backgroundColor: Colors.white,
-        body: ReorderableListView(
-          onReorder: (oldIndex, newIndex) {
-            print('$oldIndex $newIndex');
-          },
+        body: ReorderableColumn(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: data.experiences
               .map((experience) => ItemExperiences(
-                experience: experience,
-              key: ValueKey(experience),
-              ))
+                    experience: experience,
+                    key: ValueKey(experience),
+                  ))
               .toList(),
+          onReorder: (int oldIndex, int newIndex) {
+            data.moveExperience(oldIndex, newIndex);
+          },
         ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.only(top: 10),
@@ -68,4 +69,13 @@ ListView.builder(
               Experience experience = data.experiences[index];
               return ItemExperiences(experience: experience);
             })
+ */
+
+/*
+data.experiences
+              .map((experience) => ItemExperiences(
+                    experience: experience,
+                    key: ValueKey(experience),
+                  ))
+              .toList()
  */

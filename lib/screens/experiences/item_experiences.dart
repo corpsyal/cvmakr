@@ -19,122 +19,75 @@ class ItemExperiences extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
-    print(experience);
-    return FittedBox(
+
+    return Card(
+      //margin: EdgeInsets.only(bottom: 30),
       child: Container(
-        color: Colors.red,
-        margin: EdgeInsets.only(bottom: 20),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        //alignment: Alignment.centerLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: Text(
+                Flexible(
+                  child: Chip(
+                    label: Text(
                       capitalize(experience.job),
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
+                    backgroundColor: primaryColor,
+                    labelStyle: TextStyle(color: Colors.white),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          experience.company,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                            '${capitalize(dateFormat.format(experience.from))} - ${capitalize(dateFormat.format(experience.to))}'), //experience.from
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(experience.description)
-                      ],
-                    ),
-                  ),
-                ),
+                Menu(onSelect: (menu value) {
+                  if (value == menu.remove) data.removeExperience(experience);
+                  if (value == menu.edit)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddExperiences(
+                                experience: experience,
+                              )),
+                    );
+                })
               ],
             ),
-          ),
+
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              capitalize(experience.company),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+                '${capitalize(dateFormat.format(experience.from))} - ${capitalize(dateFormat.format(experience.to))}'), //experience.from
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Text(experience.description),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Icon(
+                Icons.drag_handle,
+                color: Colors.grey[400],
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 }
-
-/*
-ListTile(
-            trailing: Menu(onSelect: (menu value) {
-              if (value == menu.remove) data.removeExperience(experience);
-              if (value == menu.edit)
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AddExperiences(
-                            experience: experience,
-                          )),
-                );
-            }),
-            title: Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
-                child: Text(
-                  capitalize(experience.job),
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            subtitle: Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      experience.company,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                        '${capitalize(dateFormat.format(experience.from))} - ${capitalize(dateFormat.format(experience.to))}'), //experience.from
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(experience.description)
-                  ],
-                ),
-              ),
-            ),
-          )
- */

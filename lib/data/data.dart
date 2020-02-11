@@ -60,6 +60,14 @@ class Data extends ChangeNotifier {
     save();
   }
 
+  void moveExperience(int oldIndex, int newIndex) {
+    Experience savedExperience = experiences[oldIndex];
+    experiences.removeAt(oldIndex);
+    experiences.insert(newIndex, savedExperience);
+    notifyListeners();
+    save();
+  }
+
   Future<void> save() async {
     SharedPreferences sharedInstance = await SharedPreferences.getInstance();
     await sharedInstance.setString(sharedKey, jsonEncode(this.toJson()));
