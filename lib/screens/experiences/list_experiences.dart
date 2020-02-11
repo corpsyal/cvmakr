@@ -6,6 +6,28 @@ import 'package:cvmakr/screens/experiences/item_experiences.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+class SingleWrap extends StatelessWidget {
+  Widget child;
+  Key key;
+  SingleWrap({this.child, this.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: new BoxConstraints(
+        minHeight: 5.0,
+        minWidth: 5.0,
+        //maxHeight: double.infinity,
+        //maxWidth: double.infinity,
+      ),
+      child: new DecoratedBox(
+        decoration: new BoxDecoration(color: Colors.red),
+        child: child,
+      ),
+    );
+  }
+}
+
 class ListExperiences extends StatelessWidget {
   static const String id = 'list_experiences';
 
@@ -15,13 +37,17 @@ class ListExperiences extends StatelessWidget {
     //print(data.experiences);
     return Scaffold(
         backgroundColor: Colors.white,
-        body: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 1),
-            itemCount: data.experiences.length,
-            itemBuilder: (context, index) {
-              Experience experience = data.experiences[index];
-              return ItemExperiences(experience: experience);
-            }),
+        body: ReorderableListView(
+          onReorder: (oldIndex, newIndex) {
+            print('$oldIndex $newIndex');
+          },
+          children: data.experiences
+              .map((experience) => ItemExperiences(
+                experience: experience,
+              key: ValueKey(experience),
+              ))
+              .toList(),
+        ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.only(top: 10),
           child: AddFloatingButton(
@@ -33,3 +59,13 @@ class ListExperiences extends StatelessWidget {
         ));
   }
 }
+
+/*
+ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 1),
+            itemCount: data.experiences.length,
+            itemBuilder: (context, index) {
+              Experience experience = data.experiences[index];
+              return ItemExperiences(experience: experience);
+            })
+ */
