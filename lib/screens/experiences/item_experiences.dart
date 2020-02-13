@@ -12,7 +12,7 @@ final dateFormat = new DateFormat('MMMM yyyy');
 
 class ItemExperiences extends StatelessWidget {
   final Experience experience;
-  Key key;
+  final Key key;
 
   ItemExperiences({this.experience, this.key});
 
@@ -21,10 +21,8 @@ class ItemExperiences extends StatelessWidget {
     Data data = Provider.of<Data>(context);
 
     return Card(
-      //margin: EdgeInsets.only(bottom: 30),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        //alignment: Alignment.centerLeft,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

@@ -60,22 +60,3 @@ class ListExperiences extends StatelessWidget {
         ));
   }
 }
-
-/*
-ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 1),
-            itemCount: data.experiences.length,
-            itemBuilder: (context, index) {
-              Experience experience = data.experiences[index];
-              return ItemExperiences(experience: experience);
-            })
- */
-
-/*
-data.experiences
-              .map((experience) => ItemExperiences(
-                    experience: experience,
-                    key: ValueKey(experience),
-                  ))
-              .toList()
- */

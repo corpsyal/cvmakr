@@ -30,15 +30,4 @@ class Experience extends ChangeNotifier {
         'to': to.toString(),
         'description': description,
       };
-/*
-  void setFrom(DateTime from) {
-    this.from = from;
-    notifyListeners();
-  }
-
-  void setTo(DateTime to) {
-    this.to = to;
-    notifyListeners();
-  }
-  */
 }
