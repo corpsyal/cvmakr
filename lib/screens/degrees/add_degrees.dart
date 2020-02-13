@@ -45,7 +45,7 @@ class _AddDegreesState extends State<AddDegrees> {
     Data data = Provider.of<Data>(context);
     print(widget.degree.from);
     return FormContainer(
-      title: "Ajouter une expérience",
+      title: "Ajouter une formation",
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[

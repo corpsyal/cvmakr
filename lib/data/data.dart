@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cvmakr/data/degree.dart';
+import 'package:cvmakr/data/skill.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,18 +20,19 @@ class Data extends ChangeNotifier {
   String aboutMe;
   List<Experience> experiences;
   List<Degree> degrees;
+  List<Skill> skills;
 
-  Data({
-    this.firstName,
-    this.lastName,
-    this.age,
-    this.city,
-    this.email,
-    this.phone,
-    this.aboutMe,
-    this.experiences,
-    this.degrees,
-  });
+  Data(
+      {this.firstName,
+      this.lastName,
+      this.age,
+      this.city,
+      this.email,
+      this.phone,
+      this.aboutMe,
+      this.experiences,
+      this.degrees,
+      this.skills});
 
   Data.fromMap(Map<String, dynamic> json)
       : firstName = json['firstName'],
@@ -43,7 +45,9 @@ class Data extends ChangeNotifier {
         experiences = List<Experience>.from(
             (json['experiences'] ?? []).map((exp) => Experience.fromMap(exp))),
         degrees = List<Degree>.from(
-            (json['degrees'] ?? []).map((degree) => Degree.fromMap(degree)));
+            (json['degrees'] ?? []).map((degree) => Degree.fromMap(degree))),
+        skills = List<Skill>.from(
+            (json['skills'] ?? []).map((skill) => Degree.fromMap(skill)));
 
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
@@ -54,7 +58,8 @@ class Data extends ChangeNotifier {
         'phone': phone,
         'aboutMe': aboutMe,
         'experiences': experiences,
-        'degrees': degrees
+        'degrees': degrees,
+        'skills': skills
       };
 
   void addExperience(Experience experience) {
@@ -91,6 +96,25 @@ class Data extends ChangeNotifier {
     Degree savedDegree = degrees[oldIndex];
     degrees.removeAt(oldIndex);
     degrees.insert(newIndex, savedDegree);
+    notifyListeners();
+    save();
+  }
+
+  void addSkill(Skill skill) {
+    skills.add(skill);
+    notifyListeners();
+  }
+
+  void removeSkill(Skill skill) {
+    skills.remove(skill);
+    notifyListeners();
+    save();
+  }
+
+  void moveSkill(int oldIndex, int newIndex) {
+    Skill savedSkill = skills[oldIndex];
+    skills.removeAt(oldIndex);
+    skills.insert(newIndex, savedSkill);
     notifyListeners();
     save();
   }
