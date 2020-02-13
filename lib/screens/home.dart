@@ -2,6 +2,7 @@ import 'package:cvmakr/components/section-item.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/data/experience.dart';
+import 'package:cvmakr/screens/degrees/degrees.dart';
 import 'package:cvmakr/screens/experiences/experiences.dart';
 import 'package:cvmakr/screens/personal_informations.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,9 +81,13 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       SectionItem(
-                        title: 'Formations',
-                        iconName: Icons.school,
-                      ),
+                          title: 'Formations',
+                          iconName: Icons.school,
+                          onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Degrees()),
+                              )),
                       SectionItem(
                         title: 'Compétences',
                         iconName: Icons.assignment,

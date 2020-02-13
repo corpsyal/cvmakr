@@ -3,7 +3,7 @@ import 'package:cvmakr/components/custom-datetime-input.dart';
 import 'package:cvmakr/components/custom-input.dart';
 import 'package:cvmakr/components/form-container.dart';
 import 'package:cvmakr/data/data.dart';
-import 'package:cvmakr/data/experience.dart';
+import 'package:cvmakr/data/degree.dart';
 import 'package:cvmakr/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,44 +23,44 @@ String getButtonLabel(mode m) {
   return label;
 }
 
-class AddExperiences extends StatefulWidget {
-  static const String id = 'add_experiences';
+class AddDegrees extends StatefulWidget {
+  static const String id = 'add_degrees';
 
-  final Experience experience;
-  final mode experienceMode;
+  final Degree degree;
+  final mode degreeMode;
 
-  AddExperiences({Experience experience})
-      : this.experience = experience ?? Experience(),
-        this.experienceMode = experience != null ? mode.edit : mode.add;
+  AddDegrees({Degree degree})
+      : this.degree = degree ?? Degree(),
+        this.degreeMode = degree != null ? mode.edit : mode.add;
 
   @override
-  _AddExperiencesState createState() => _AddExperiencesState();
+  _AddDegreesState createState() => _AddDegreesState();
 }
 
-class _AddExperiencesState extends State<AddExperiences> {
+class _AddDegreesState extends State<AddDegrees> {
   final dateFormat = new DateFormat('MM/yyyy');
 
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
-    print(widget.experience.from);
+    print(widget.degree.from);
     return FormContainer(
       title: "Ajouter une expérience",
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             CustomInput(
-              label: "Poste",
-              initialValue: widget.experience.job,
-              onChange: (String job) {
-                widget.experience.job = job;
+              label: "Formation",
+              initialValue: widget.degree.degree,
+              onChange: (String degree) {
+                widget.degree.degree = degree;
               },
             ),
             CustomInput(
-              label: "Entreprise",
-              initialValue: widget.experience.company,
-              onChange: (String company) {
-                widget.experience.company = company;
+              label: "Ecole",
+              initialValue: widget.degree.school,
+              onChange: (String school) {
+                widget.degree.school = school;
               },
             ),
             Row(
@@ -68,10 +68,10 @@ class _AddExperiencesState extends State<AddExperiences> {
                 CustomDateTimeInput(
                     label: "De",
                     initialValue:
-                        capitalize(dateFormat.format(widget.experience.from)),
+                        capitalize(dateFormat.format(widget.degree.from)),
                     onConfirm: (dateTime, _) {
                       setState(() {
-                        widget.experience.from = dateTime;
+                        widget.degree.from = dateTime;
                       });
                     }),
                 SizedBox(
@@ -80,10 +80,10 @@ class _AddExperiencesState extends State<AddExperiences> {
                 CustomDateTimeInput(
                     label: "Jusque",
                     initialValue:
-                        capitalize(dateFormat.format(widget.experience.to)),
+                        capitalize(dateFormat.format(widget.degree.to)),
                     onConfirm: (dateTime, _) {
                       setState(() {
-                        widget.experience.to = dateTime;
+                        widget.degree.to = dateTime;
                       });
                     }),
               ],
@@ -91,17 +91,17 @@ class _AddExperiencesState extends State<AddExperiences> {
             CustomInput(
               label: "Courte description",
               maxLines: 6,
-              initialValue: widget.experience.description,
+              initialValue: widget.degree.description,
               onChange: (String description) {
-                widget.experience.description = description;
+                widget.degree.description = description;
               },
             ),
             CustomButton(
-              label: getButtonLabel(widget.experienceMode),
+              label: getButtonLabel(widget.degreeMode),
               onPress: () async {
-                print(widget.experience.toJson());
-                if (widget.experienceMode == mode.add)
-                  data.addExperience(widget.experience);
+                print(widget.degree.toJson());
+                if (widget.degreeMode == mode.add)
+                  data.addDegree(widget.degree);
                 await data.save();
                 Navigator.pop(context);
               },

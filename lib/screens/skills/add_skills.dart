@@ -26,8 +26,8 @@ String getButtonLabel(mode m) {
 class AddExperiences extends StatefulWidget {
   static const String id = 'add_experiences';
 
-  final Experience experience;
-  final mode experienceMode;
+  Experience experience;
+  mode experienceMode;
 
   AddExperiences({Experience experience})
       : this.experience = experience ?? Experience(),
@@ -112,3 +112,10 @@ class _AddExperiencesState extends State<AddExperiences> {
     );
   }
 }
+
+/*
+onPressed: () {
+                DatePicker.showDatePicker(context,
+                    locale: DATETIME_PICKER_LOCALE_DEFAULT);
+              },
+ */

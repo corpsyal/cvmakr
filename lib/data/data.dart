@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cvmakr/data/degree.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,16 +18,19 @@ class Data extends ChangeNotifier {
   String phone;
   String aboutMe;
   List<Experience> experiences;
+  List<Degree> degrees;
 
-  Data(
-      {this.firstName,
-      this.lastName,
-      this.age,
-      this.city,
-      this.email,
-      this.phone,
-      this.aboutMe,
-      this.experiences});
+  Data({
+    this.firstName,
+    this.lastName,
+    this.age,
+    this.city,
+    this.email,
+    this.phone,
+    this.aboutMe,
+    this.experiences,
+    this.degrees,
+  });
 
   Data.fromMap(Map<String, dynamic> json)
       : firstName = json['firstName'],
@@ -37,7 +41,9 @@ class Data extends ChangeNotifier {
         phone = json['phone'],
         aboutMe = json['aboutMe'],
         experiences = List<Experience>.from(
-            (json['experiences'] ?? []).map((exp) => Experience.fromMap(exp)));
+            (json['experiences'] ?? []).map((exp) => Experience.fromMap(exp))),
+        degrees = List<Degree>.from(
+            (json['degrees'] ?? []).map((degree) => Degree.fromMap(degree)));
 
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
@@ -47,11 +53,13 @@ class Data extends ChangeNotifier {
         'email': email,
         'phone': phone,
         'aboutMe': aboutMe,
-        'experiences': experiences
+        'experiences': experiences,
+        'degrees': degrees
       };
 
   void addExperience(Experience experience) {
     experiences.add(experience);
+    notifyListeners();
   }
 
   void removeExperience(Experience experience) {
@@ -64,6 +72,25 @@ class Data extends ChangeNotifier {
     Experience savedExperience = experiences[oldIndex];
     experiences.removeAt(oldIndex);
     experiences.insert(newIndex, savedExperience);
+    notifyListeners();
+    save();
+  }
+
+  void addDegree(Degree degree) {
+    degrees.add(degree);
+    notifyListeners();
+  }
+
+  void removeDegree(Degree degree) {
+    degrees.remove(degree);
+    notifyListeners();
+    save();
+  }
+
+  void moveDegree(int oldIndex, int newIndex) {
+    Degree savedDegree = degrees[oldIndex];
+    degrees.removeAt(oldIndex);
+    degrees.insert(newIndex, savedDegree);
     notifyListeners();
     save();
   }
