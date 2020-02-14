@@ -20,7 +20,7 @@ class EmptyScreen extends StatelessWidget {
                     color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       //mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Image.asset(
@@ -42,7 +42,7 @@ class EmptyScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 60,
                         ),
                         AddFloatingButton(
                           onPressed: onPressed,
