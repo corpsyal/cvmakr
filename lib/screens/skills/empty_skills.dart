@@ -1,4 +1,6 @@
-import 'package:cvmakr/screens/emptyScreen.dart';
+import 'package:cvmakr/components/empty-screen.dart';
+import 'package:cvmakr/data/skill.dart';
+import 'package:cvmakr/screens/skills/add_skills.dart';
 import 'package:flutter/material.dart';
 
 class EmptySkills extends StatelessWidget {
@@ -8,31 +10,8 @@ class EmptySkills extends StatelessWidget {
   Widget build(BuildContext context) {
     return EmptyScreen(
       mainLabel: "Pas encore de compétences !",
-      onPressed: _settingModalBottomSheet(context),
+      onPressed: () =>
+          settingModalBottomSheet(context, Skill(), mode: skillMode.add),
     );
   }
 }
-
-Function _settingModalBottomSheet(context) => () => showModalBottomSheet(
-      //isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
-      ),
-      context: context,
-      builder: (BuildContext bc) => Container(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Column(
-          children: <Widget>[
-            Text('Ajouter une compétence'),
-            TextField(),
-          ],
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        ),
-      ),
-    );

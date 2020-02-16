@@ -1,8 +1,8 @@
+import 'package:cvmakr/components/custom-slider.dart';
 import 'package:cvmakr/components/menu.dart';
-import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
-import 'package:cvmakr/data/experience.dart';
-import 'package:cvmakr/screens/experiences/add_experiences.dart';
+import 'package:cvmakr/data/skill.dart';
+import 'package:cvmakr/screens/skills/add_skills.dart';
 import 'package:cvmakr/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,11 +10,11 @@ import 'package:provider/provider.dart';
 
 final dateFormat = new DateFormat('MMMM yyyy');
 
-class ItemExperiences extends StatelessWidget {
-  final Experience experience;
+class ItemSkills extends StatelessWidget {
+  final Skill skill;
   final Key key;
 
-  ItemExperiences({this.experience, this.key});
+  ItemSkills({this.skill, this.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,53 +29,28 @@ class ItemExperiences extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Flexible(
-                  child: Chip(
-                    label: Text(
-                      capitalize(experience.job),
-                      overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Text(
+                    capitalize(
+                      skill.skill,
                     ),
-                    backgroundColor: primaryColor,
-                    labelStyle: TextStyle(color: Colors.white),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                SizedBox(
+                  width: 10,
+                ),
                 Menu(onSelect: (menu value) {
-                  if (value == menu.remove) data.removeExperience(experience);
+                  if (value == menu.remove) data.removeSkill(skill);
                   if (value == menu.edit)
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddExperiences(
-                                experience: experience,
-                              )),
-                    );
+                    settingModalBottomSheet(context, skill,
+                        mode: skillMode.edit);
                 })
               ],
             ),
-
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              capitalize(experience.company),
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-                '${capitalize(dateFormat.format(experience.from))} - ${capitalize(dateFormat.format(experience.to))}'), //experience.from
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: Text(experience.description),
-            ),
-            SizedBox(
-              height: 10,
+            CustomSlider(
+              value: skill.level,
+              onChanged: (value) {},
             ),
             Center(
               child: Icon(

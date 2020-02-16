@@ -6,7 +6,7 @@ class Skill extends ChangeNotifier {
 
   Skill({
     this.skill = "",
-    this.level = "",
+    this.level = "70",
   });
 
   Skill.fromMap(Map<String, dynamic> exp)

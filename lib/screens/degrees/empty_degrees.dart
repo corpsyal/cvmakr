@@ -1,5 +1,5 @@
+import 'package:cvmakr/components/empty-screen.dart';
 import 'package:cvmakr/screens/degrees/add_degrees.dart';
-import 'package:cvmakr/screens/emptyScreen.dart';
 import 'package:flutter/material.dart';
 
 class EmptyDegrees extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:cvmakr/components/form-container.dart';
 import 'package:cvmakr/data/data.dart';
-import 'package:cvmakr/screens/experiences/list_experiences.dart';
 import 'package:cvmakr/screens/skills/empty_skills.dart';
+import 'package:cvmakr/screens/skills/list_skills.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,7 @@ class Skills extends StatelessWidget {
     //print(data.experiences);
     return FormContainer(
       title: "Compétences",
-      child: data.skills.length > 0 ? ListExperiences() : EmptySkills(),
+      child: data.skills.length > 0 ? ListSkills() : EmptySkills(),
     );
   }
 }

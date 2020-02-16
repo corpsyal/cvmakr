@@ -12,6 +12,7 @@ class PersonalInformations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
+
     return FormContainer(
       title: "Informations personnelles",
       child: SingleChildScrollView(
@@ -72,6 +73,7 @@ class PersonalInformations extends StatelessWidget {
               maxLines: 8,
             ),
             CustomButton(
+              width: double.infinity,
               label: 'Enregistrer',
               onPress: () {
                 data.save();

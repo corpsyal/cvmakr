@@ -47,7 +47,7 @@ class Data extends ChangeNotifier {
         degrees = List<Degree>.from(
             (json['degrees'] ?? []).map((degree) => Degree.fromMap(degree))),
         skills = List<Skill>.from(
-            (json['skills'] ?? []).map((skill) => Degree.fromMap(skill)));
+            (json['skills'] ?? []).map((skill) => Skill.fromMap(skill)));
 
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
@@ -132,7 +132,7 @@ class Data extends ChangeNotifier {
       Map<String, dynamic> decodedData = jsonDecode(savedData ?? "{}");
       return Data.fromMap(decodedData);
     } catch (e) {
-      print(e);
+      print('erreur ici $e');
       return Data.fromMap({});
     }
   }

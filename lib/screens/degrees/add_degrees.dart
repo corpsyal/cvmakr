@@ -97,6 +97,7 @@ class _AddDegreesState extends State<AddDegrees> {
               },
             ),
             CustomButton(
+              width: double.infinity,
               label: getButtonLabel(widget.degreeMode),
               onPress: () async {
                 print(widget.degree.toJson());

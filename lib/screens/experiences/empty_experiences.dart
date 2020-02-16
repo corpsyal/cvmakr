@@ -1,4 +1,4 @@
-import 'package:cvmakr/screens/emptyScreen.dart';
+import 'package:cvmakr/components/empty-screen.dart';
 import 'package:cvmakr/screens/experiences/add_experiences.dart';
 import 'package:flutter/material.dart';
 

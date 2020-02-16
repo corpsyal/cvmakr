@@ -28,8 +28,11 @@ class EmptyScreen extends StatelessWidget {
                         ),
                         Text(
                           mainLabel,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                         Column(
                           children: <Widget>[

@@ -1,7 +1,8 @@
 import 'package:cvmakr/components/add-floatting-button.dart';
 import 'package:cvmakr/data/data.dart';
-import 'package:cvmakr/screens/experiences/add_experiences.dart';
-import 'package:cvmakr/screens/experiences/item_experiences.dart';
+import 'package:cvmakr/data/skill.dart';
+import 'package:cvmakr/screens/skills/add_skills.dart';
+import 'package:cvmakr/screens/skills/item_skills.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
@@ -28,8 +29,8 @@ class SingleWrap extends StatelessWidget {
   }
 }
 
-class ListExperiences extends StatelessWidget {
-  static const String id = 'list_experiences';
+class ListSkills extends StatelessWidget {
+  static const String id = 'list_skills';
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +40,21 @@ class ListExperiences extends StatelessWidget {
         backgroundColor: Colors.white,
         body: ReorderableColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: data.experiences
-              .map((experience) => ItemExperiences(
-                    experience: experience,
-                    key: ValueKey(experience),
+          children: data.skills
+              .map((skill) => ItemSkills(
+                    skill: skill,
+                    key: ValueKey(skill),
                   ))
               .toList(),
           onReorder: (int oldIndex, int newIndex) {
-            data.moveExperience(oldIndex, newIndex);
+            data.moveSkill(oldIndex, newIndex);
           },
         ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.only(top: 10),
           child: AddFloatingButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddExperiences()),
-            ),
+            onPressed: () =>
+                settingModalBottomSheet(context, Skill(), mode: skillMode.add),
           ),
         ));
   }

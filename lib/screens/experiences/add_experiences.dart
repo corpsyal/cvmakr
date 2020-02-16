@@ -97,6 +97,7 @@ class _AddExperiencesState extends State<AddExperiences> {
               },
             ),
             CustomButton(
+              width: double.infinity,
               label: getButtonLabel(widget.experienceMode),
               onPress: () async {
                 print(widget.experience.toJson());
