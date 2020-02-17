@@ -4,6 +4,7 @@ import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/data/experience.dart';
 import 'package:cvmakr/screens/degrees/degrees.dart';
 import 'package:cvmakr/screens/experiences/experiences.dart';
+import 'package:cvmakr/screens/languages/languages.dart';
 import 'package:cvmakr/screens/personal_informations.dart';
 import 'package:cvmakr/screens/skills/skills.dart';
 import 'package:flutter/cupertino.dart';
@@ -100,6 +101,10 @@ class HomePage extends StatelessWidget {
                       SectionItem(
                         title: 'Langues',
                         iconName: Icons.language,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Languages()),
+                        ),
                       ),
                       SectionItem(
                         title: 'Modèles de CV',

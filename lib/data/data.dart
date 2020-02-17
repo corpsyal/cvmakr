@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cvmakr/data/degree.dart';
+import 'package:cvmakr/data/language.dart';
 import 'package:cvmakr/data/skill.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,18 +22,21 @@ class Data extends ChangeNotifier {
   List<Experience> experiences;
   List<Degree> degrees;
   List<Skill> skills;
+  List<Language> languages;
 
-  Data(
-      {this.firstName,
-      this.lastName,
-      this.age,
-      this.city,
-      this.email,
-      this.phone,
-      this.aboutMe,
-      this.experiences,
-      this.degrees,
-      this.skills});
+  Data({
+    this.firstName,
+    this.lastName,
+    this.age,
+    this.city,
+    this.email,
+    this.phone,
+    this.aboutMe,
+    this.experiences,
+    this.degrees,
+    this.skills,
+    this.languages,
+  });
 
   Data.fromMap(Map<String, dynamic> json)
       : firstName = json['firstName'],
@@ -47,7 +51,9 @@ class Data extends ChangeNotifier {
         degrees = List<Degree>.from(
             (json['degrees'] ?? []).map((degree) => Degree.fromMap(degree))),
         skills = List<Skill>.from(
-            (json['skills'] ?? []).map((skill) => Skill.fromMap(skill)));
+            (json['skills'] ?? []).map((skill) => Skill.fromMap(skill))),
+        languages = List<Language>.from((json['languages'] ?? [])
+            .map((language) => Language.fromMap(language)));
 
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
@@ -59,7 +65,8 @@ class Data extends ChangeNotifier {
         'aboutMe': aboutMe,
         'experiences': experiences,
         'degrees': degrees,
-        'skills': skills
+        'skills': skills,
+        'languages': languages,
       };
 
   void addExperience(Experience experience) {
@@ -115,6 +122,25 @@ class Data extends ChangeNotifier {
     Skill savedSkill = skills[oldIndex];
     skills.removeAt(oldIndex);
     skills.insert(newIndex, savedSkill);
+    notifyListeners();
+    save();
+  }
+
+  void addLanguage(Language language) {
+    languages.add(language);
+    notifyListeners();
+  }
+
+  void removeLanguage(Language language) {
+    languages.remove(language);
+    notifyListeners();
+    save();
+  }
+
+  void moveLanguage(int oldIndex, int newIndex) {
+    Language savedLanguage = languages[oldIndex];
+    languages.removeAt(oldIndex);
+    languages.insert(newIndex, savedLanguage);
     notifyListeners();
     save();
   }
