@@ -13,7 +13,8 @@ class Language extends ChangeNotifier {
 
   Language.fromMap(Map<String, dynamic> exp)
       : language = exp["language"],
-        level = exp["level"] as LanguageEnum;
+        level =
+            LanguageEnum.values.firstWhere((l) => l.toString() == exp['level']);
 
   Map<String, dynamic> toJson() => {
         'language': language,

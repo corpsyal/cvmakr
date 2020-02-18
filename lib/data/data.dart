@@ -156,6 +156,7 @@ class Data extends ChangeNotifier {
       final shared = await SharedPreferences.getInstance();
       String savedData = shared.getString(sharedKey);
       Map<String, dynamic> decodedData = jsonDecode(savedData ?? "{}");
+      print(decodedData);
       return Data.fromMap(decodedData);
     } catch (e) {
       print('erreur ici $e');

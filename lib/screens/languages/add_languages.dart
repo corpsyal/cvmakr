@@ -81,7 +81,7 @@ Future settingModalBottomSheet(context, Language language,
                         onPress: () async {
                           if (mode == languageMode.add)
                             data.addLanguage(language);
-                          //await data.save();
+                          await data.save();
                           Navigator.pop(context);
                         },
                       ),
