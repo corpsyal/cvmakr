@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:cvmakr/components/form-container.dart';
+import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/screens/models/item_models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 
 Future<http.Response> fetchAlbum() {
@@ -33,7 +35,10 @@ class Models extends StatelessWidget {
                     .toList(),
               );
             } else
-              return Text('loading...');
+              return SpinKitThreeBounce(
+                color: primaryColor,
+                size: 25.0,
+              );
           }),
     );
   }
