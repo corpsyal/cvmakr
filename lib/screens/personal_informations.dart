@@ -1,13 +1,28 @@
+import 'dart:io';
+
 import 'package:cvmakr/components/custom-button.dart';
 import 'package:cvmakr/components/custom-input.dart';
 import 'package:cvmakr/components/form-container.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class PersonalInformations extends StatelessWidget {
+class PersonalInformations extends StatefulWidget {
   static const String id = 'personnal_infos';
+
+  @override
+  _PersonalInformationsState createState() => _PersonalInformationsState();
+}
+
+class _PersonalInformationsState extends State<PersonalInformations> {
+  Future getImage(Data data) async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      data.avatar = image.path;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +33,39 @@ class PersonalInformations extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
-                margin: EdgeInsets.only(top: 8, bottom: 24),
-                child: CircleAvatar(
-                  child: Icon(
-                    Icons.photo_camera,
-                    color: primaryColor,
-                  ),
-                  //foregroundColor: Colors.white,
-                  backgroundColor: Colors.white,
-                ),
-                width: 96.0,
-                height: 96.0,
-                padding: const EdgeInsets.all(2.0), // borde width
-                decoration: new BoxDecoration(
-                  color: primaryColor, // border color
-                  shape: BoxShape.circle,
-                )),
+            GestureDetector(
+              onTap: () => getImage(data),
+              child: data.avatar != null
+                  ? Container(
+                      margin: EdgeInsets.only(bottom: 16),
+                      width: 132,
+                      height: 132,
+                      child: CircleAvatar(
+                        backgroundColor: primaryColor,
+                        backgroundImage: Image.file(
+                          File(data.avatar),
+                        ).image,
+                      ),
+                    )
+                  : Container(
+                      margin: EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: primaryColor, width: 2)),
+                      child: Icon(
+                        Icons.account_circle,
+                        color: primaryColor,
+                        size: 132,
+                      ),
+                    ),
+            ),
+            Text(
+              'Ajouter votre photo',
+              style: TextStyle(color: Theme.of(context).hintColor),
+            ),
+            SizedBox(
+              height: 24,
+            ),
             CustomInput(
               label: "Nom",
               initialValue: data.lastName,

@@ -25,6 +25,7 @@ dependencies:
   provider: ^4.0.2
   intl: ^0.16.1
   reorderables: ^0.2.12
+  image_picker: ^0.6.3+4
   flutter_cupertino_date_picker:
     path: ./flutter-cupertino-date-picker
 
