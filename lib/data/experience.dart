@@ -13,8 +13,8 @@ class Experience extends ChangeNotifier {
     DateTime from,
     DateTime to,
     this.description = "",
-  })  : this.from = from ?? DateTime.now(),
-        this.to = to ?? DateTime.now();
+  })  : this.from = from,
+        this.to = to;
 
   Experience.fromMap(Map<String, dynamic> exp)
       : job = exp["job"],

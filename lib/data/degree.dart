@@ -13,8 +13,8 @@ class Degree extends ChangeNotifier {
     DateTime from,
     DateTime to,
     this.description = "",
-  })  : this.from = from ?? DateTime.now(),
-        this.to = to ?? DateTime.now();
+  })  : this.from = from,
+        this.to = to;
 
   Degree.fromMap(Map<String, dynamic> exp)
       : degree = exp["degree"],

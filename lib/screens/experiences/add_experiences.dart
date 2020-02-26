@@ -67,11 +67,13 @@ class _AddExperiencesState extends State<AddExperiences> {
               children: <Widget>[
                 CustomDateTimeInput(
                     label: "De",
-                    initialValue:
-                        capitalize(dateFormat.format(widget.experience.from)),
+                    initialValue: widget.experience.from != null
+                        ? capitalize(dateFormat.format(widget.experience.from))
+                        : null,
                     onConfirm: (dateTime, _) {
                       setState(() {
                         widget.experience.from = dateTime;
+                        FocusScope.of(context).requestFocus(new FocusNode());
                       });
                     }),
                 SizedBox(
@@ -79,11 +81,13 @@ class _AddExperiencesState extends State<AddExperiences> {
                 ),
                 CustomDateTimeInput(
                     label: "Jusque",
-                    initialValue:
-                        capitalize(dateFormat.format(widget.experience.to)),
+                    initialValue: widget.experience.to != null
+                        ? capitalize(dateFormat.format(widget.experience.to))
+                        : null,
                     onConfirm: (dateTime, _) {
                       setState(() {
                         widget.experience.to = dateTime;
+                        FocusScope.of(context).requestFocus(new FocusNode());
                       });
                     }),
               ],

@@ -55,9 +55,18 @@ class _CustomInputState extends State<CustomInput> {
   bool inputIsValid() =>
       !_focusNode.hasFocus && _editingController.value.text.isNotEmpty;
 
+  void checkIsValid() {
+    setState(() {
+      isValid = inputIsValid();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (widget.controlledInput) _editingController.text = widget.initialValue;
+    if (widget.controlledInput) {
+      _editingController.text = widget.initialValue;
+      checkIsValid();
+    }
 
     return Container(
       //height: widget.maxLines == 1 ? 45 : null,

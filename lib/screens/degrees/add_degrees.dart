@@ -67,11 +67,13 @@ class _AddDegreesState extends State<AddDegrees> {
               children: <Widget>[
                 CustomDateTimeInput(
                     label: "De",
-                    initialValue:
-                        capitalize(dateFormat.format(widget.degree.from)),
+                    initialValue: widget.degree.from != null
+                        ? capitalize(dateFormat.format(widget.degree.from))
+                        : null,
                     onConfirm: (dateTime, _) {
                       setState(() {
                         widget.degree.from = dateTime;
+                        FocusScope.of(context).requestFocus(new FocusNode());
                       });
                     }),
                 SizedBox(
@@ -79,11 +81,13 @@ class _AddDegreesState extends State<AddDegrees> {
                 ),
                 CustomDateTimeInput(
                     label: "Jusque",
-                    initialValue:
-                        capitalize(dateFormat.format(widget.degree.to)),
+                    initialValue: widget.degree.to != null
+                        ? capitalize(dateFormat.format(widget.degree.to))
+                        : null,
                     onConfirm: (dateTime, _) {
                       setState(() {
                         widget.degree.to = dateTime;
+                        FocusScope.of(context).requestFocus(new FocusNode());
                       });
                     }),
               ],
