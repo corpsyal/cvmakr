@@ -12,6 +12,7 @@ import 'experience.dart';
 class Data extends ChangeNotifier {
   static const sharedKey = 'data';
 
+  String avatar;
   String firstName;
   String lastName;
   String age;
@@ -23,23 +24,26 @@ class Data extends ChangeNotifier {
   List<Degree> degrees;
   List<Skill> skills;
   List<Language> languages;
+  String model;
 
-  Data({
-    this.firstName,
-    this.lastName,
-    this.age,
-    this.city,
-    this.email,
-    this.phone,
-    this.aboutMe,
-    this.experiences,
-    this.degrees,
-    this.skills,
-    this.languages,
-  });
+  Data(
+      {this.avatar,
+      this.firstName,
+      this.lastName,
+      this.age,
+      this.city,
+      this.email,
+      this.phone,
+      this.aboutMe,
+      this.experiences,
+      this.degrees,
+      this.skills,
+      this.languages,
+      this.model});
 
   Data.fromMap(Map<String, dynamic> json)
-      : firstName = json['firstName'],
+      : avatar = json['avatar'],
+        firstName = json['firstName'],
         lastName = json['lastName'],
         city = json['city'],
         age = json['age'],
@@ -53,9 +57,11 @@ class Data extends ChangeNotifier {
         skills = List<Skill>.from(
             (json['skills'] ?? []).map((skill) => Skill.fromMap(skill))),
         languages = List<Language>.from((json['languages'] ?? [])
-            .map((language) => Language.fromMap(language)));
+            .map((language) => Language.fromMap(language))),
+        model = json['model'];
 
   Map<String, dynamic> toJson() => {
+        'avatar': avatar,
         'firstName': firstName,
         'lastName': lastName,
         'age': age,
@@ -67,6 +73,7 @@ class Data extends ChangeNotifier {
         'degrees': degrees,
         'skills': skills,
         'languages': languages,
+        'model': model
       };
 
   void addExperience(Experience experience) {
@@ -141,6 +148,12 @@ class Data extends ChangeNotifier {
     Language savedLanguage = languages[oldIndex];
     languages.removeAt(oldIndex);
     languages.insert(newIndex, savedLanguage);
+    notifyListeners();
+    save();
+  }
+
+  void selectModel(String id) {
+    model = id;
     notifyListeners();
     save();
   }
