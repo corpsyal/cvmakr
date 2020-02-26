@@ -19,9 +19,11 @@ class PersonalInformations extends StatefulWidget {
 class _PersonalInformationsState extends State<PersonalInformations> {
   Future getImage(Data data) async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      data.avatar = image.path;
-    });
+    if (image != null) {
+      setState(() {
+        data.avatar = image.path;
+      });
+    }
   }
 
   @override
@@ -36,16 +38,39 @@ class _PersonalInformationsState extends State<PersonalInformations> {
             GestureDetector(
               onTap: () => getImage(data),
               child: data.avatar != null
-                  ? Container(
-                      margin: EdgeInsets.only(bottom: 16),
-                      width: 132,
-                      height: 132,
-                      child: CircleAvatar(
-                        backgroundColor: primaryColor,
-                        backgroundImage: Image.file(
-                          File(data.avatar),
-                        ).image,
-                      ),
+                  ? Stack(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 16),
+                          width: 132,
+                          height: 132,
+                          child: CircleAvatar(
+                            backgroundColor: primaryColor,
+                            backgroundImage: Image.file(
+                              File(data.avatar),
+                            ).image,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 20,
+                          right: 5,
+                          child: GestureDetector(
+                            onTap: () => setState(() => data.avatar = null),
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              child: CircleAvatar(
+                                backgroundColor: primaryColor,
+                                child: Icon(
+                                  Icons.delete,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     )
                   : Container(
                       margin: EdgeInsets.only(bottom: 16),
