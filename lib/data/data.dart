@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cvmakr/data/degree.dart';
 import 'package:cvmakr/data/language.dart';
 import 'package:cvmakr/data/skill.dart';
+import 'package:device_id/device_id.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,20 +27,21 @@ class Data extends ChangeNotifier {
   List<Language> languages;
   String model;
 
-  Data(
-      {this.avatar,
-      this.firstName,
-      this.lastName,
-      this.age,
-      this.city,
-      this.email,
-      this.phone,
-      this.aboutMe,
-      this.experiences,
-      this.degrees,
-      this.skills,
-      this.languages,
-      this.model});
+  Data({
+    this.avatar,
+    this.firstName,
+    this.lastName,
+    this.age,
+    this.city,
+    this.email,
+    this.phone,
+    this.aboutMe,
+    this.experiences,
+    this.degrees,
+    this.skills,
+    this.languages,
+    this.model = '01',
+  });
 
   Data.fromMap(Map<String, dynamic> json)
       : avatar = json['avatar'],
@@ -166,6 +168,8 @@ class Data extends ChangeNotifier {
 
   static Future<Data> restoreData() async {
     try {
+      String device_id = await DeviceId.getID;
+      print("DEVICE ID: $device_id");
       final shared = await SharedPreferences.getInstance();
       String savedData = shared.getString(sharedKey);
       Map<String, dynamic> decodedData = jsonDecode(savedData ?? "{}");

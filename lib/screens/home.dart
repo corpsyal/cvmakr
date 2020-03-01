@@ -1,13 +1,13 @@
 import 'package:cvmakr/components/section-item.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
-import 'package:cvmakr/data/experience.dart';
 import 'package:cvmakr/screens/degrees/degrees.dart';
 import 'package:cvmakr/screens/experiences/experiences.dart';
 import 'package:cvmakr/screens/languages/languages.dart';
 import 'package:cvmakr/screens/models/models.dart';
 import 'package:cvmakr/screens/personal_informations.dart';
 import 'package:cvmakr/screens/skills/skills.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -141,14 +141,26 @@ class HomePage extends StatelessWidget {
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
-            onPressed: () {
-              data.experiences.add(Experience(
-                  job: "un job",
-                  company: "une company",
-                  from: DateTime.now(),
-                  to: DateTime.now(),
-                  description: "une description de test"));
-              data.save();
+            onPressed: () async {
+              /*
+              String url = 'http://192.168.1.13:3000/template';
+              Map<String, String> bodyRequest = {
+                'data': jsonEncode(data.toJson())
+              };
+              print(data.avatar);
+              if (data.avatar != null) {
+                File file = File(data.avatar);
+                bodyRequest['avatar'] = base64Encode(file.readAsBytesSync());
+              }
+
+              http.Response response = await http.post(url, body: bodyRequest);
+              String id = response.body;
+              print(id);
+              launch('$url/$id');
+
+               */
+              RewardedVideoAd.instance.show();
+              //print(response.body);
             },
           ),
         ),

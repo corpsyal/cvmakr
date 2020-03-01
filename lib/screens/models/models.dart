@@ -20,6 +20,10 @@ class Models extends StatelessWidget {
           future: fetchAlbum(),
           builder: (context, AsyncSnapshot<http.Response> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                print(snapshot.error.toString());
+                return Text('Une erreur est survenue...');
+              }
               print(snapshot.data.body);
               List<String> allIds =
                   List<String>.from(jsonDecode(snapshot.data.body));
