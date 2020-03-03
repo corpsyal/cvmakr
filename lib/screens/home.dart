@@ -3,6 +3,7 @@ import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/screens/degrees/degrees.dart';
 import 'package:cvmakr/screens/experiences/experiences.dart';
+import 'package:cvmakr/screens/generate.dart';
 import 'package:cvmakr/screens/languages/languages.dart';
 import 'package:cvmakr/screens/models/models.dart';
 import 'package:cvmakr/screens/personal_informations.dart';
@@ -10,15 +11,61 @@ import 'package:cvmakr/screens/skills/skills.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static const String id = 'home';
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool readyToGenerate = false;
+
+  setReadyToGenerate(bool isReady) => setState(() => readyToGenerate = isReady);
+
+  void setListener(RewardedVideoAdEvent event,
+      {String rewardType, int rewardAmount}) {
+    if (event == RewardedVideoAdEvent.loaded) {
+      setReadyToGenerate(true);
+    }
+
+    if (event == RewardedVideoAdEvent.started) {
+      //setReadyToGenerate(false);
+    }
+
+    if (event == RewardedVideoAdEvent.rewarded) {
+      //print('$rewardType $rewardAmount');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Generate()),
+      );
+    }
+
+    if ([
+      RewardedVideoAdEvent.completed,
+      RewardedVideoAdEvent.closed,
+      RewardedVideoAdEvent.failedToLoad
+    ].contains(event)) {
+      setReadyToGenerate(false);
+      loadAdd();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadAdd();
+
+    RewardedVideoAd.instance.listener = setListener;
+  }
 
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
-
+    print(readyToGenerate);
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
@@ -127,41 +174,49 @@ class HomePage extends StatelessWidget {
         color: Colors.white,
         child: Container(
           padding: EdgeInsets.all(10),
-          child: RaisedButton(
-            //splashColor: Colors.white,
-            //highlightColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(8.0),
-            ),
-            elevation: 0,
-            color: primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 25.0),
-            child: Text(
-              "Je génère mon CV",
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            onPressed: () async {
-              /*
-              String url = 'http://192.168.1.13:3000/template';
-              Map<String, String> bodyRequest = {
-                'data': jsonEncode(data.toJson())
-              };
-              print(data.avatar);
-              if (data.avatar != null) {
-                File file = File(data.avatar);
-                bodyRequest['avatar'] = base64Encode(file.readAsBytesSync());
-              }
+          child: SizedBox(
+            height: 70,
+            child: RaisedButton(
+              //splashColor: Colors.white,
+              //highlightColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(8.0),
+              ),
+              elevation: 0,
+              color: primaryColor,
+              padding: EdgeInsets.symmetric(vertical: 25.0),
+              child: readyToGenerate
+                  ? Text(
+                      "Je génère mon CV",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )
+                  : SpinKitThreeBounce(
+                      color: Colors.white,
+                      size: 15.0,
+                    ),
+              onPressed: () async {
+                /*
+                String url = 'http://192.168.1.13:3000/template';
+                Map<String, String> bodyRequest = {
+                  'data': jsonEncode(data.toJson())
+                };
+                print(data.avatar);
+                if (data.avatar != null) {
+                  File file = File(data.avatar);
+                  bodyRequest['avatar'] = base64Encode(file.readAsBytesSync());
+                }
 
-              http.Response response = await http.post(url, body: bodyRequest);
-              String id = response.body;
-              print(id);
-              launch('$url/$id');
+                http.Response response = await http.post(url, body: bodyRequest);
+                String id = response.body;
+                print(id);
+                launch('$url/$id');
 
-               */
-              RewardedVideoAd.instance.show();
-              //print(response.body);
-            },
+                 */
+                RewardedVideoAd.instance.show();
+                //print(response.body);
+              },
+            ),
           ),
         ),
         elevation: 0,
