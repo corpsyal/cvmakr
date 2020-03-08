@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 
 class ItemModels extends StatelessWidget {
   final String id;
+  final String link;
 
-  ItemModels({this.id});
+  ItemModels({this.id, this.link});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class ItemModels extends StatelessWidget {
           onTap: () => data.selectModel(id),
           child: Card(
             child: Stack(children: <Widget>[
-              Image.network('http://192.168.1.13:3000/preview?id=$id'),
+              Image.network(link),
               data.model == id
                   ? Positioned(
                       child: CircleAvatar(
