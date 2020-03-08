@@ -5,6 +5,8 @@ import 'package:cvmakr/data/degree.dart';
 import 'package:cvmakr/data/language.dart';
 import 'package:cvmakr/data/skill.dart';
 import 'package:device_id/device_id.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +28,9 @@ class Data extends ChangeNotifier {
   List<Skill> skills;
   List<Language> languages;
   String model;
+  RemoteConfig remoteConfig;
+  static FirebaseStorage storage =
+      FirebaseStorage(storageBucket: 'gs://cvmakr-19bc1.appspot.com');
 
   Data({
     this.avatar,
@@ -43,24 +48,26 @@ class Data extends ChangeNotifier {
     this.model = '01',
   });
 
-  Data.fromMap(Map<String, dynamic> json)
-      : avatar = json['avatar'],
-        firstName = json['firstName'],
-        lastName = json['lastName'],
-        city = json['city'],
-        age = json['age'],
-        email = json['email'],
-        phone = json['phone'],
-        aboutMe = json['aboutMe'],
-        experiences = List<Experience>.from(
-            (json['experiences'] ?? []).map((exp) => Experience.fromMap(exp))),
-        degrees = List<Degree>.from(
-            (json['degrees'] ?? []).map((degree) => Degree.fromMap(degree))),
-        skills = List<Skill>.from(
-            (json['skills'] ?? []).map((skill) => Skill.fromMap(skill))),
-        languages = List<Language>.from((json['languages'] ?? [])
-            .map((language) => Language.fromMap(language))),
-        model = json['model'];
+  Data.fromMap(Map<String, dynamic> json, config) {
+    avatar = json['avatar'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    city = json['city'];
+    age = json['age'];
+    email = json['email'];
+    phone = json['phone'];
+    aboutMe = json['aboutMe'];
+    experiences = List<Experience>.from(
+        (json['experiences'] ?? []).map((exp) => Experience.fromMap(exp)));
+    degrees = List<Degree>.from(
+        (json['degrees'] ?? []).map((degree) => Degree.fromMap(degree)));
+    skills = List<Skill>.from(
+        (json['skills'] ?? []).map((skill) => Skill.fromMap(skill)));
+    languages = List<Language>.from((json['languages'] ?? [])
+        .map((language) => Language.fromMap(language)));
+    model = json['model'];
+    remoteConfig = config;
+  }
 
   Map<String, dynamic> toJson() => {
         'avatar': avatar,
@@ -174,15 +181,24 @@ class Data extends ChangeNotifier {
       String savedData = shared.getString(sharedKey);
       Map<String, dynamic> decodedData = jsonDecode(savedData ?? "{}");
       print(decodedData);
-      return Data.fromMap(decodedData);
+      RemoteConfig config = await Data.setupRemoteConfig();
+      return Data.fromMap(decodedData, config);
     } catch (e) {
       print('erreur ici $e');
-      return Data.fromMap({});
+      return Data.fromMap({}, null);
     }
   }
 
   static Future<void> clear() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.clear();
+  }
+
+  static Future<RemoteConfig> setupRemoteConfig() async {
+    final RemoteConfig remoteConfig = await RemoteConfig.instance;
+    //remoteConfig.setConfigSettings(RemoteConfigSettings(debugMode: true));
+    remoteConfig.fetch(expiration: const Duration(seconds: 0));
+    await remoteConfig.activateFetched();
+    return remoteConfig;
   }
 }
