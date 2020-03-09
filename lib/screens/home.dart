@@ -214,7 +214,16 @@ class _HomePageState extends State<HomePage> {
 
                  */
                 RewardedVideoAd.instance.show();
+                //print(data.remoteConfig.getString('api_url'));
                 //print(response.body);
+/*
+upload avatar
+                Data.storage
+                    .ref()
+                    .child('avatars')
+                    .child('test')
+                    .putFile(File(data.avatar));
+ */
               },
             ),
           ),
