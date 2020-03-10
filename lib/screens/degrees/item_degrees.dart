@@ -5,10 +5,7 @@ import 'package:cvmakr/data/degree.dart';
 import 'package:cvmakr/screens/degrees/add_degrees.dart';
 import 'package:cvmakr/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-final dateFormat = new DateFormat('MMMM yyyy');
 
 class ItemDegrees extends StatelessWidget {
   final Degree degree;
@@ -66,8 +63,7 @@ class ItemDegrees extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text(
-                '${capitalize(dateFormat.format(degree.from))} - ${capitalize(dateFormat.format(degree.to))}'), //degree.from
+            Text(renderDate(degree.from, degree.to)), //degree.from
             SizedBox(
               height: 10,
             ),

@@ -16,12 +16,13 @@ class Degree extends ChangeNotifier {
   })  : this.from = from,
         this.to = to;
 
-  Degree.fromMap(Map<String, dynamic> exp)
-      : degree = exp["degree"],
-        school = exp["school"],
-        from = DateTime.parse(exp["from"]),
-        to = DateTime.parse(exp["from"]),
-        description = exp["description"];
+  Degree.fromMap(Map<String, dynamic> exp) {
+    degree = exp["degree"];
+    school = exp["school"];
+    from = exp["from"] != 'null' ? DateTime.parse(exp["from"]) : null;
+    to = exp["to"] != 'null' ? DateTime.parse(exp["to"]) : null;
+    description = exp["description"];
+  }
 
   Map<String, dynamic> toJson() => {
         'degree': degree,

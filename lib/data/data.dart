@@ -180,11 +180,11 @@ class Data extends ChangeNotifier {
       final shared = await SharedPreferences.getInstance();
       String savedData = shared.getString(sharedKey);
       Map<String, dynamic> decodedData = jsonDecode(savedData ?? "{}");
-      print(decodedData);
+      //print(decodedData);
       RemoteConfig config = await Data.setupRemoteConfig();
       return Data.fromMap(decodedData, config);
     } catch (e) {
-      print('erreur ici $e');
+      print('erreur de restauration des datas $e');
       return Data.fromMap({}, null);
     }
   }

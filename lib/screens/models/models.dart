@@ -53,7 +53,7 @@ class Models extends StatelessWidget {
                 print(snapshot.error.toString());
                 return Text('Une erreur est survenue...');
               }
-              print(snapshot.data);
+              // print(snapshot.data);
 
               return GridView.count(
                 //crossAxisSpacing: 10,

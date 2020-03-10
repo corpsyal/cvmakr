@@ -5,10 +5,7 @@ import 'package:cvmakr/data/experience.dart';
 import 'package:cvmakr/screens/experiences/add_experiences.dart';
 import 'package:cvmakr/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-final dateFormat = new DateFormat('MMMM yyyy');
 
 class ItemExperiences extends StatelessWidget {
   final Experience experience;
@@ -66,8 +63,7 @@ class ItemExperiences extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text(
-                '${capitalize(dateFormat.format(experience.from))} - ${capitalize(dateFormat.format(experience.to))}'), //experience.from
+            Text(renderDate(experience.from, experience.to)), //experience.from
             SizedBox(
               height: 10,
             ),

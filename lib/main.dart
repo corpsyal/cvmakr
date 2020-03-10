@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
         future: Data.restoreData(),
         builder: (context, AsyncSnapshot<Data> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            print(snapshot.data.experiences.length);
             SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
               systemNavigationBarColor: Colors.white, // navigation bar color
             ));

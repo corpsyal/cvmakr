@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
-    print(readyToGenerate);
+
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
