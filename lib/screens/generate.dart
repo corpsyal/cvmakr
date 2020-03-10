@@ -70,7 +70,7 @@ class _GenerateState extends State<Generate> {
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
-    generateCV(data);
+
     return Material(
       child: SafeArea(
         child: Container(
