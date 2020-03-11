@@ -196,34 +196,14 @@ class _HomePageState extends State<HomePage> {
                       size: 15.0,
                     ),
               onPressed: () async {
+                RewardedVideoAd.instance.show();
                 /*
-                String url = 'http://192.168.1.13:3000/template';
-                Map<String, String> bodyRequest = {
-                  'data': jsonEncode(data.toJson())
-                };
-                print(data.avatar);
-                if (data.avatar != null) {
-                  File file = File(data.avatar);
-                  bodyRequest['avatar'] = base64Encode(file.readAsBytesSync());
-                }
-
-                http.Response response = await http.post(url, body: bodyRequest);
-                String id = response.body;
-                print(id);
-                launch('$url/$id');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Generate()),
+                );
 
                  */
-                RewardedVideoAd.instance.show();
-                //print(data.remoteConfig.getString('api_url'));
-                //print(response.body);
-/*
-upload avatar
-                Data.storage
-                    .ref()
-                    .child('avatars')
-                    .child('test')
-                    .putFile(File(data.avatar));
- */
               },
             ),
           ),

@@ -8,6 +8,7 @@ import 'package:cvmakr/data/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:path/path.dart' as p;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -24,18 +25,23 @@ class _GenerateState extends State<Generate> {
     functionName: 'generatePdf',
   );
 
-  Future<String> generateCV(data) async {
+  Future<String> generateCV(Data data) async {
     Map<String, String> bodyRequest = {'data': jsonEncode(data.toJson())};
     print(data.avatar);
     if (data.avatar != null) {
-      String avatarId = Uuid().v1();
+      File avatar = File(data.avatar);
+      String extension = p.extension(avatar.path);
+
+      String uniqId = Uuid().v1();
+
+      String avatarId = "$uniqId$extension";
       print('uniqueKey $avatarId');
 
       await Data.storage
           .ref()
           .child('avatars')
           .child(avatarId)
-          .putFile(File(data.avatar))
+          .putFile(avatar)
           .onComplete;
 
       //File file = File(data.avatar);
@@ -43,22 +49,23 @@ class _GenerateState extends State<Generate> {
     }
     print(bodyRequest);
     try {
-      //print(callable);
       HttpsCallableResult resp = await callable.call(bodyRequest);
       print(resp.data);
       return resp.data;
-      /*
 
+/*
       http.Response resp = await http.post(
           'http://192.168.1.13:5000/cvmakr-19bc1/us-central1/generatePdf',
           body: bodyRequest);
       print(resp.body);
+      return resp.body;
        */
+
     } catch (e) {
       print(e);
     }
 
-    return 'test';
+    return null;
 
 /*
     http.Response response = await http.post(url, body: bodyRequest);

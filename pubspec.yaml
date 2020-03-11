@@ -38,6 +38,7 @@ dependencies:
   cloud_functions: ^0.4.2+2
   uuid: ^2.0.4
   device_id: ^0.2.0
+  path: ^1.6.4
   flutter_cupertino_date_picker:
     path: ./flutter-cupertino-date-picker
 
