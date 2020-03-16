@@ -2,6 +2,7 @@ import 'package:cvmakr/components/custom-button.dart';
 import 'package:cvmakr/components/custom-datetime-input.dart';
 import 'package:cvmakr/components/custom-input.dart';
 import 'package:cvmakr/components/form-container.dart';
+import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/data/experience.dart';
 import 'package:cvmakr/utils.dart';
@@ -65,31 +66,58 @@ class _AddExperiencesState extends State<AddExperiences> {
             ),
             Row(
               children: <Widget>[
-                CustomDateTimeInput(
-                    label: "De",
-                    initialValue: widget.experience.from != null
-                        ? capitalize(dateFormat.format(widget.experience.from))
-                        : null,
-                    onConfirm: (dateTime, _) {
-                      setState(() {
-                        widget.experience.from = dateTime;
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                      });
-                    }),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        '',
+                        style: TextStyle(fontSize: 10),
+                      ),
+                      CustomDateTimeInput(
+                          label: "De",
+                          initialValue: widget.experience.from != null
+                              ? capitalize(
+                                  dateFormat.format(widget.experience.from))
+                              : null,
+                          onConfirm: (dateTime, _) {
+                            setState(() {
+                              widget.experience.from = dateTime;
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
+                            });
+                          }),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   width: 20,
                 ),
-                CustomDateTimeInput(
-                    label: "Jusque",
-                    initialValue: widget.experience.to != null
-                        ? capitalize(dateFormat.format(widget.experience.to))
-                        : null,
-                    onConfirm: (dateTime, _) {
-                      setState(() {
-                        widget.experience.to = dateTime;
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                      });
-                    }),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                          child: Text(
+                        'Vide si poste actuel',
+                        style: TextStyle(fontSize: 10, color: secondTextColor),
+                      )),
+                      CustomDateTimeInput(
+                          label: "Jusque",
+                          initialValue: widget.experience.to != null
+                              ? capitalize(
+                                  dateFormat.format(widget.experience.to))
+                              : null,
+                          onConfirm: (dateTime, _) {
+                            setState(() {
+                              widget.experience.to = dateTime;
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
+                            });
+                          }),
+                    ],
+                  ),
+                ),
               ],
             ),
             CustomInput(

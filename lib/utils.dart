@@ -7,6 +7,6 @@ final dateFormat = new DateFormat('MMMM yyyy');
 
 String renderDate(DateTime fromDate, DateTime toDate) {
   String from = fromDate != null ? dateFormat.format(fromDate) : '';
-  String to = toDate != null ? dateFormat.format(toDate) : '';
+  String to = toDate != null ? dateFormat.format(toDate) : "Aujourd'hui";
   return "$from - $to";
 }

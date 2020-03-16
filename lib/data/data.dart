@@ -65,7 +65,7 @@ class Data extends ChangeNotifier {
         (json['skills'] ?? []).map((skill) => Skill.fromMap(skill)));
     languages = List<Language>.from((json['languages'] ?? [])
         .map((language) => Language.fromMap(language)));
-    model = json['model'];
+    model = json['model'] ?? "01";
     remoteConfig = config;
   }
 
