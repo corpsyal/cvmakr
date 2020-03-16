@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:async/async.dart';
 import 'package:cvmakr/components/form-container.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
@@ -16,28 +17,36 @@ await Data.storage
       .getDownloadURL();
  */
 
-List<String> getIds(data) {
-  RemoteConfigValue availaibleTemplatesIds =
-      data.remoteConfig.getValue('available_templates_ids');
-  List<String> ids =
-      List<String>.from(jsonDecode(availaibleTemplatesIds.asString()));
-  return ids;
+class Models extends StatefulWidget {
+  @override
+  _ModelsState createState() => _ModelsState();
 }
 
-Future<List<Map<String, String>>> getLinks(Data data) async {
-  List<String> ids = getIds(data);
-  List<Map<String, String>> links = await Future.wait(ids.map((id) async {
-    String link = await Data.storage
-        .ref()
-        .child('templates/$id/preview.png')
-        .getDownloadURL();
-    return {'id': id, 'link': link};
-  }));
+class _ModelsState extends State<Models> {
+  final AsyncMemoizer<List<Map<String, String>>> _memoizer = AsyncMemoizer();
 
-  return links;
-}
+  List<String> getIds(data) {
+    RemoteConfigValue availaibleTemplatesIds =
+        data.remoteConfig.getValue('available_templates_ids');
+    List<String> ids =
+        List<String>.from(jsonDecode(availaibleTemplatesIds.asString()));
+    return ids;
+  }
 
-class Models extends StatelessWidget {
+  Future<List<Map<String, String>>> getLinks(Data data) =>
+      _memoizer.runOnce(() async {
+        List<String> ids = getIds(data);
+        List<Map<String, String>> links = await Future.wait(ids.map((id) async {
+          String link = await Data.storage
+              .ref()
+              .child('templates/$id/preview.png')
+              .getDownloadURL();
+          return {'id': id, 'link': link};
+        }));
+
+        return links;
+      });
+
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
