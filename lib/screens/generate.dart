@@ -5,6 +5,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cvmakr/components/custom-button.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -21,13 +22,16 @@ class Generate extends StatefulWidget {
 }
 
 class _GenerateState extends State<Generate> {
+  final Trace myTrace = FirebasePerformance.instance.newTrace("generate_trace");
+
   final HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(
     functionName: 'generatePdf',
   );
 
   Future<String> generateCV(Data data) async {
+    myTrace.start();
     Map<String, String> bodyRequest = {'data': jsonEncode(data.toJson())};
-    print(data.avatar);
+    String result = null;
     if (data.avatar != null) {
       File avatar = File(data.avatar);
       String extension = p.extension(avatar.path);
@@ -51,7 +55,8 @@ class _GenerateState extends State<Generate> {
     try {
       HttpsCallableResult resp = await callable.call(bodyRequest);
       print(resp.data);
-      return resp.data;
+      result = resp.data;
+      myTrace.incrementMetric("generate_successful", 1);
 
 /*
       http.Response resp = await http.post(
@@ -63,9 +68,11 @@ class _GenerateState extends State<Generate> {
 
     } catch (e) {
       print(e);
+      myTrace.incrementMetric("generate_fail", 1);
     }
 
-    return null;
+    myTrace.stop();
+    return result;
 
 /*
     http.Response response = await http.post(url, body: bodyRequest);
