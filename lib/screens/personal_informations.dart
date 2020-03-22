@@ -6,7 +6,10 @@ import 'package:cvmakr/components/form-container.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class PersonalInformations extends StatefulWidget {
@@ -20,8 +23,30 @@ class _PersonalInformationsState extends State<PersonalInformations> {
   Future getImage(Data data) async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (image != null) {
+      File croppedFile = await ImageCropper.cropImage(
+        sourcePath: image.path,
+        cropStyle: CropStyle.circle,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+        ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Ajustement',
+            toolbarColor: primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: true),
+        iosUiSettings: IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        ),
+      );
+
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocDirPath = appDocDir.path;
+      File imageCropped = await croppedFile
+          .copy("$appDocDirPath/${p.basename(croppedFile.path)}");
+
       setState(() {
-        data.avatar = image.path;
+        data.avatar = imageCropped.path;
       });
     }
   }
