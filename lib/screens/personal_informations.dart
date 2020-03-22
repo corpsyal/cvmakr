@@ -51,6 +51,19 @@ class _PersonalInformationsState extends State<PersonalInformations> {
     }
   }
 
+  Future<bool> avatarExist(Data data) async {
+    String avatarPath = data.avatar;
+    if (avatarPath != null) {
+      bool fileExist = await File(avatarPath).exists();
+      if (!fileExist) {
+        data.avatar = null;
+        await data.save();
+      }
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
@@ -62,55 +75,65 @@ class _PersonalInformationsState extends State<PersonalInformations> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            GestureDetector(
-              onTap: () => getImage(data),
-              child: data.avatar != null
-                  ? Stack(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 16),
-                          width: 132,
-                          height: 132,
-                          child: CircleAvatar(
-                            backgroundColor: primaryColor,
-                            backgroundImage: Image.file(
-                              File(data.avatar),
-                            ).image,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 20,
-                          right: 5,
-                          child: GestureDetector(
-                            onTap: () => setState(() => data.avatar = null),
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              child: CircleAvatar(
-                                backgroundColor: primaryColor,
-                                child: Icon(
-                                  Icons.delete,
-                                  size: 20,
-                                  color: Colors.white,
+            FutureBuilder(
+                future: avatarExist(data),
+                builder: (context, AsyncSnapshot<bool> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return GestureDetector(
+                      onTap: () => getImage(data),
+                      child: data.avatar != null && snapshot.data
+                          ? Stack(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 16),
+                                  width: 132,
+                                  height: 132,
+                                  child: CircleAvatar(
+                                    backgroundColor: primaryColor,
+                                    backgroundImage: Image.file(
+                                      File(data.avatar),
+                                    ).image,
+                                  ),
                                 ),
+                                Positioned(
+                                  bottom: 20,
+                                  right: 5,
+                                  child: GestureDetector(
+                                    onTap: () =>
+                                        setState(() => data.avatar = null),
+                                    child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: CircleAvatar(
+                                        backgroundColor: primaryColor,
+                                        child: Icon(
+                                          Icons.delete,
+                                          size: 20,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(
+                              margin: EdgeInsets.only(bottom: 16),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      color: primaryColor, width: 2)),
+                              child: Icon(
+                                Icons.account_circle,
+                                color: primaryColor,
+                                size: 132,
                               ),
                             ),
-                          ),
-                        )
-                      ],
-                    )
-                  : Container(
-                      margin: EdgeInsets.only(bottom: 16),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: primaryColor, width: 2)),
-                      child: Icon(
-                        Icons.account_circle,
-                        color: primaryColor,
-                        size: 132,
-                      ),
-                    ),
-            ),
+                    );
+                  } else {
+                    return Text('');
+                  }
+                }),
             Text(
               'Ajouter votre photo',
               style: TextStyle(color: Theme.of(context).hintColor),

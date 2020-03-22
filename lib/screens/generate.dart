@@ -31,7 +31,7 @@ class _GenerateState extends State<Generate> {
   Future<String> generateCV(Data data) async {
     myTrace.start();
     Map<String, String> bodyRequest = {'data': jsonEncode(data.toJson())};
-    String result = null;
+    String result;
     if (data.avatar != null) {
       File avatar = File(data.avatar);
       String extension = p.extension(avatar.path);
