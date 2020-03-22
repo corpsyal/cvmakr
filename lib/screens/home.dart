@@ -14,6 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
+MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+  childDirected: false,
+  //childDirected: true,
+  nonPersonalizedAds: true,
+  testDevices: ['C7B3B7A312CC82A2420D2850E08A2302'],
+);
+
 class HomePage extends StatefulWidget {
   static const String id = 'home';
 
@@ -22,34 +29,49 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool readyToGenerate = false;
+  bool successfulLoad = false;
+  bool failedToLoad = false;
 
-  setReadyToGenerate(bool isReady) => setState(() => readyToGenerate = isReady);
+  void loadAdd() => RewardedVideoAd.instance.load(
+        // adUnitId: RewardedVideoAd.testAdUnitId,
+        adUnitId: 'ca-app-pub-8039402823283760/1332869913',
+        targetingInfo: targetingInfo,
+      );
+
+  void goToGenerate() => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Generate()),
+      );
 
   void setListener(RewardedVideoAdEvent event,
       {String rewardType, int rewardAmount}) {
     if (event == RewardedVideoAdEvent.loaded) {
-      setReadyToGenerate(true);
+      setState(() {
+        successfulLoad = true;
+      });
     }
 
-    if (event == RewardedVideoAdEvent.started) {
-      //setReadyToGenerate(false);
-    }
+    if (event == RewardedVideoAdEvent.started) {}
 
     if (event == RewardedVideoAdEvent.rewarded) {
-      //print('$rewardType $rewardAmount');
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Generate()),
-      );
+      goToGenerate();
+    }
+
+    if (event == RewardedVideoAdEvent.failedToLoad) {
+      setState(() {
+        failedToLoad = true;
+      });
     }
 
     if ([
-      RewardedVideoAdEvent.completed,
+      //RewardedVideoAdEvent.completed,
       RewardedVideoAdEvent.closed,
-      RewardedVideoAdEvent.failedToLoad
     ].contains(event)) {
-      setReadyToGenerate(false);
+      setState(() {
+        successfulLoad = false;
+        failedToLoad = false;
+      });
+
       loadAdd();
     }
   }
@@ -57,9 +79,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    loadAdd();
-
+    // loadAdd();
     RewardedVideoAd.instance.listener = setListener;
+    loadAdd();
   }
 
   @override
@@ -185,7 +207,7 @@ class _HomePageState extends State<HomePage> {
               elevation: 0,
               color: primaryColor,
               padding: EdgeInsets.symmetric(vertical: 25.0),
-              child: readyToGenerate
+              child: successfulLoad || failedToLoad
                   ? Text(
                       "Je génère mon CV",
                       style: TextStyle(
@@ -196,14 +218,12 @@ class _HomePageState extends State<HomePage> {
                       size: 15.0,
                     ),
               onPressed: () async {
-                RewardedVideoAd.instance.show();
-                /*
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Generate()),
-                );
-
-                 */
+                if (successfulLoad)
+                  RewardedVideoAd.instance.show();
+                else if (failedToLoad) {
+                  loadAdd();
+                  goToGenerate();
+                }
               },
             ),
           ),

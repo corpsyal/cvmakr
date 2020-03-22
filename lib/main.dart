@@ -1,6 +1,7 @@
 import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/screens/home.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 Color primaryColor = Color(0xFF8B84FB);
 const String sharedKey = 'data';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // need when async in main
   Intl.Intl.defaultLocale = 'fr';
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -21,7 +22,12 @@ void main() {
   FirebaseAdMob.instance
       .initialize(appId: 'ca-app-pub-8039402823283760~9402931627');
 
-  initializeDateFormatting("fr_FR", null).then((_) => runApp(MyApp()));
+  //Crashlytics.instance.enableInDevMode = true;
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
+  await initializeDateFormatting("fr_FR", null);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
