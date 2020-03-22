@@ -44,16 +44,12 @@ Future settingModalBottomSheet(context, Skill skill, {skillMode mode}) =>
                     bottom: MediaQuery.of(context).viewInsets.bottom == 0
                         ? 0
                         : MediaQuery.of(context).viewInsets.bottom / 2),
-                child: Container(
-                  color: Colors.white,
-                  height: 70,
-                  child: CustomInput(
-                    initialValue: skill.skill,
-                    label: "Compétence",
-                    onChange: (skillValue) {
-                      skill.skill = skillValue;
-                    },
-                  ),
+                child: CustomInput(
+                  initialValue: skill.skill,
+                  label: "Compétence",
+                  onChange: (skillValue) {
+                    skill.skill = skillValue;
+                  },
                 ),
               ),
               CustomSlider(
