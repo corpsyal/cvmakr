@@ -27,10 +27,12 @@ class AddDegrees extends StatefulWidget {
   static const String id = 'add_degrees';
 
   final Degree degree;
+  final Degree initialDegree;
   final mode degreeMode;
 
   AddDegrees({Degree degree})
       : this.degree = degree ?? Degree(),
+        this.initialDegree = Degree.fromMap((degree ?? Degree()).toJson()),
         this.degreeMode = degree != null ? mode.edit : mode.add;
 
   @override
@@ -45,6 +47,9 @@ class _AddDegreesState extends State<AddDegrees> {
     Data data = Provider.of<Data>(context);
     print(widget.degree.from);
     return FormContainer(
+      onWillPop: () => widget.degree.isEqual(widget.initialDegree)
+          ? noChange(context)
+          : onBack(context),
       title: "Ajouter une formation",
       child: SingleChildScrollView(
         child: Column(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class Degree extends ChangeNotifier {
@@ -31,4 +33,8 @@ class Degree extends ChangeNotifier {
         'to': to.toString(),
         'description': description,
       };
+
+  bool isEqual(Degree degree) {
+    return jsonEncode(this.toJson()) == jsonEncode(degree.toJson());
+  }
 }

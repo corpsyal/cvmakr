@@ -28,10 +28,13 @@ class AddExperiences extends StatefulWidget {
   static const String id = 'add_experiences';
 
   final Experience experience;
+  final Experience initialExperience;
   final mode experienceMode;
 
   AddExperiences({Experience experience})
       : this.experience = experience ?? Experience(),
+        this.initialExperience =
+            Experience.fromMap((experience ?? Experience()).toJson()),
         this.experienceMode = experience != null ? mode.edit : mode.add;
 
   @override
@@ -44,8 +47,11 @@ class _AddExperiencesState extends State<AddExperiences> {
   @override
   Widget build(BuildContext context) {
     Data data = Provider.of<Data>(context);
-    print(widget.experience.from);
+
     return FormContainer(
+      onWillPop: () => widget.experience.isEqual(widget.initialExperience)
+          ? noChange(context)
+          : onBack(context),
       title: "Ajouter une expérience",
       child: SingleChildScrollView(
         child: Column(

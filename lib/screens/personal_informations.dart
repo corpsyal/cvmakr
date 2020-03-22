@@ -31,6 +31,8 @@ class _PersonalInformationsState extends State<PersonalInformations> {
     Data data = Provider.of<Data>(context);
 
     return FormContainer(
+      onWillPop: () =>
+          data.hasUnsavedChange() ? onBack(context) : noChange(context),
       title: "Informations personnelles",
       child: SingleChildScrollView(
         child: Column(

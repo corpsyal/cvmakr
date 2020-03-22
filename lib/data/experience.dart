@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class Experience extends ChangeNotifier {
@@ -31,4 +33,8 @@ class Experience extends ChangeNotifier {
         'to': to.toString(),
         'description': description,
       };
+
+  bool isEqual(Experience exp) {
+    return jsonEncode(this.toJson()) == jsonEncode(exp.toJson());
+  }
 }

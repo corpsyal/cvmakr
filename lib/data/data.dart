@@ -31,6 +31,7 @@ class Data extends ChangeNotifier {
   RemoteConfig remoteConfig;
   static FirebaseStorage storage =
       FirebaseStorage(storageBucket: 'gs://cvmakr-19bc1.appspot.com');
+  String savedData;
 
   Data({
     this.avatar,
@@ -48,7 +49,8 @@ class Data extends ChangeNotifier {
     this.model = '01',
   });
 
-  Data.fromMap(Map<String, dynamic> json, config) {
+  void initializeFromString(String data, {config}) {
+    Map<String, dynamic> json = jsonDecode(data ?? "{}");
     avatar = json['avatar'];
     firstName = json['firstName'];
     lastName = json['lastName'];
@@ -66,7 +68,12 @@ class Data extends ChangeNotifier {
     languages = List<Language>.from((json['languages'] ?? [])
         .map((language) => Language.fromMap(language)));
     model = json['model'] ?? "01";
-    remoteConfig = config;
+    if (config != null) remoteConfig = config;
+    savedData = data;
+  }
+
+  Data.fromMap(String data, config) {
+    initializeFromString(data, config: config);
   }
 
   Map<String, dynamic> toJson() => {
@@ -169,7 +176,16 @@ class Data extends ChangeNotifier {
 
   Future<void> save() async {
     SharedPreferences sharedInstance = await SharedPreferences.getInstance();
-    await sharedInstance.setString(sharedKey, jsonEncode(this.toJson()));
+    String newData = jsonEncode(this.toJson());
+    await sharedInstance.setString(sharedKey, newData);
+    savedData = newData;
+    notifyListeners();
+  }
+
+  bool hasUnsavedChange() => jsonEncode(this.toJson()) != savedData;
+
+  void resetUnsavedChange() {
+    initializeFromString(savedData);
     notifyListeners();
   }
 
@@ -179,13 +195,12 @@ class Data extends ChangeNotifier {
       print("DEVICE ID: $device_id");
       final shared = await SharedPreferences.getInstance();
       String savedData = shared.getString(sharedKey);
-      Map<String, dynamic> decodedData = jsonDecode(savedData ?? "{}");
-      //print(decodedData);
+      //Map<String, dynamic> decodedData = jsonDecode(savedData ?? "{}");
       RemoteConfig config = await Data.setupRemoteConfig();
-      return Data.fromMap(decodedData, config);
+      return Data.fromMap(savedData, config);
     } catch (e) {
       print('erreur de restauration des datas $e');
-      return Data.fromMap({}, null);
+      return Data.fromMap("{}", null);
     }
   }
 
