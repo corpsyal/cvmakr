@@ -45,6 +45,7 @@ dependencies:
   path: ^1.6.4
   path_provider: ^1.6.5
   image_cropper: ^1.2.1
+  permission_handler: ^4.4.0+hotfix.2
   flutter_cupertino_date_picker:
     path: ./flutter-cupertino-date-picker
 

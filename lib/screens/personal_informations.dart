@@ -10,6 +10,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class PersonalInformations extends StatefulWidget {
@@ -20,34 +21,57 @@ class PersonalInformations extends StatefulWidget {
 }
 
 class _PersonalInformationsState extends State<PersonalInformations> {
+  Future<void> checkPermissionAndroid({Function fn}) async {
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+
+    if (permission == PermissionStatus.denied) {
+      Map<PermissionGroup, PermissionStatus> permissions =
+          await PermissionHandler()
+              .requestPermissions([PermissionGroup.storage]);
+
+      if (permissions[PermissionGroup.storage] == PermissionStatus.granted) {
+        fn();
+      }
+    }
+
+    if (permission == PermissionStatus.granted) {
+      fn();
+    }
+  }
+
   Future getImage(Data data) async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      File croppedFile = await ImageCropper.cropImage(
-        sourcePath: image.path,
-        cropStyle: CropStyle.circle,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-        ],
-        androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Ajustement',
-            toolbarColor: primaryColor,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: true),
-        iosUiSettings: IOSUiSettings(
-          minimumAspectRatio: 1.0,
-        ),
-      );
+    try {
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        File croppedFile = await ImageCropper.cropImage(
+          sourcePath: image.path,
+          cropStyle: CropStyle.circle,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+              toolbarTitle: 'Ajustement',
+              toolbarColor: primaryColor,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: true),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ),
+        );
 
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      String appDocDirPath = appDocDir.path;
-      File imageCropped = await croppedFile
-          .copy("$appDocDirPath/${p.basename(croppedFile.path)}");
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        String appDocDirPath = appDocDir.path;
+        File imageCropped = await croppedFile
+            .copy("$appDocDirPath/${p.basename(croppedFile.path)}");
 
-      setState(() {
-        data.avatar = imageCropped.path;
-      });
+        setState(() {
+          data.avatar = imageCropped.path;
+        });
+      }
+    } catch (err) {
+      print(err.toString());
     }
   }
 
@@ -80,7 +104,9 @@ class _PersonalInformationsState extends State<PersonalInformations> {
                 builder: (context, AsyncSnapshot<bool> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return GestureDetector(
-                      onTap: () => getImage(data),
+                      //onTap: () => getImage(data),
+                      onTap: () =>
+                          checkPermissionAndroid(fn: () => getImage(data)),
                       child: data.avatar != null && snapshot.data
                           ? Stack(
                               children: <Widget>[
