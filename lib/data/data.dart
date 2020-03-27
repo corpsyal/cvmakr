@@ -212,7 +212,7 @@ class Data extends ChangeNotifier {
   static Future<RemoteConfig> setupRemoteConfig() async {
     final RemoteConfig remoteConfig = await RemoteConfig.instance;
     //remoteConfig.setConfigSettings(RemoteConfigSettings(debugMode: true));
-    remoteConfig.fetch(expiration: const Duration(seconds: 0));
+    await remoteConfig.fetch(expiration: const Duration(seconds: 0));
     await remoteConfig.activateFetched();
     return remoteConfig;
   }
