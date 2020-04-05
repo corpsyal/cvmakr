@@ -1,3 +1,4 @@
+import 'package:cvmakr/data/data.dart';
 import 'package:flutter/material.dart';
 
 enum menu { edit, remove }
@@ -15,11 +16,11 @@ class Menu extends StatelessWidget {
       child: Icon(Icons.more_vert),
       itemBuilder: (BuildContext context) => <PopupMenuEntry<menu>>[
         PopupMenuItem(
-          child: Text("Editer"),
+          child: Text(Data.translate("edit")),
           value: menu.edit,
         ),
         PopupMenuItem(
-          child: Text("Supprimer"),
+          child: Text(Data.translate("delete")),
           value: menu.remove,
         )
       ],

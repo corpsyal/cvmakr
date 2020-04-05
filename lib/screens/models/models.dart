@@ -55,7 +55,7 @@ class _ModelsState extends State<Models> {
     Data data = Provider.of<Data>(context);
 
     return FormContainer(
-      title: 'Modèles de CV',
+      title: Data.translate("models"),
       child: FutureBuilder(
           future: getLinks(data),
           builder:
@@ -79,7 +79,7 @@ class _ModelsState extends State<Models> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Je retourne à l'accueil",
+                          Data.translate("back_home"),
                           style: TextStyle(
                             color: primaryColor,
                             fontWeight: FontWeight.w400,

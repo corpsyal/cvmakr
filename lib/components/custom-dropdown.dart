@@ -1,24 +1,25 @@
 import 'package:cvmakr/consts.dart';
+import 'package:cvmakr/data/data.dart';
 import 'package:flutter/material.dart';
 
-const Map<String, String> languages = {
-  'en': "Anglais",
-  'de': "Allemand",
-  'fr': "Français",
-  'it': "Italien",
-  'es': "Espagnol",
-  'pl': "Polonais",
-  'ru': "Russe",
-  'rp': "Roumain",
-  'nl': "Néerlandais",
-  'ho': "Hongrois",
-  'pt': "Portugais",
-  'el': "Grec",
-  'sv': "Suédois",
-  'cs': "Tchèque",
-  'zh': "Chinois",
-  'ja': "Japonais"
-};
+const languages = <String>[
+  'en',
+  'de',
+  'fr',
+  'it',
+  'es',
+  'pl',
+  'ru',
+  'rp',
+  'nl',
+  'ho',
+  'pt',
+  'el',
+  'sv',
+  'cs',
+  'zh',
+  'ja',
+];
 
 //List<DropdownMenuItem> dropDownItems = [];
 
@@ -31,7 +32,7 @@ class CustomDropdown extends StatelessWidget {
   List<DropdownMenuItem> buildList() {
     List<DropdownMenuItem> dropDownItems = [];
     languages.forEach(
-      (key, value) => dropDownItems.add(
+      (key) => dropDownItems.add(
         DropdownMenuItem(
           child: Row(
             children: <Widget>[
@@ -43,7 +44,7 @@ class CustomDropdown extends StatelessWidget {
               SizedBox(
                 width: 10,
               ),
-              Text(value),
+              Text(Data.translate(key)),
             ],
           ),
           value: key,

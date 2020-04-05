@@ -13,7 +13,7 @@ class Degrees extends StatelessWidget {
     Data data = Provider.of<Data>(context);
     //print(data.experiences);
     return FormContainer(
-        title: "Formations",
+        title: Data.translate("education"),
         child: data.degrees.length > 0 ? ListDegrees() : EmptyDegrees());
   }
 }

@@ -13,7 +13,7 @@ class Skills extends StatelessWidget {
     Data data = Provider.of<Data>(context);
     //print(data.experiences);
     return FormContainer(
-      title: "Compétences",
+      title: Data.translate("skills"),
       child: data.skills.length > 0 ? ListSkills() : EmptySkills(),
     );
   }

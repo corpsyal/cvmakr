@@ -4,24 +4,11 @@ import 'package:cvmakr/components/custom-input.dart';
 import 'package:cvmakr/components/form-container.dart';
 import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/data/degree.dart';
+import 'package:cvmakr/screens/experiences/add_experiences.dart';
 import 'package:cvmakr/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-enum mode { add, edit }
-String getButtonLabel(mode m) {
-  String label;
-  switch (m) {
-    case mode.add:
-      label = "Ajouter";
-      break;
-    case mode.edit:
-      label = 'Modifier';
-      break;
-  }
-  return label;
-}
 
 class AddDegrees extends StatefulWidget {
   static const String id = 'add_degrees';
@@ -50,19 +37,19 @@ class _AddDegreesState extends State<AddDegrees> {
       onWillPop: () => widget.degree.isEqual(widget.initialDegree)
           ? noChange(context)
           : onBack(context),
-      title: "Ajouter une formation",
+      title: Data.translate("add_degree"),
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             CustomInput(
-              label: "Formation",
+              label: Data.translate("degree"),
               initialValue: widget.degree.degree,
               onChange: (String degree) {
                 widget.degree.degree = degree;
               },
             ),
             CustomInput(
-              label: "Ecole",
+              label: Data.translate("school"),
               initialValue: widget.degree.school,
               onChange: (String school) {
                 widget.degree.school = school;
@@ -71,7 +58,7 @@ class _AddDegreesState extends State<AddDegrees> {
             Row(
               children: <Widget>[
                 CustomDateTimeInput(
-                    label: "De",
+                    label: Data.translate("from"),
                     initialValue: widget.degree.from != null
                         ? capitalize(dateFormat.format(widget.degree.from))
                         : null,
@@ -85,7 +72,7 @@ class _AddDegreesState extends State<AddDegrees> {
                   width: 20,
                 ),
                 CustomDateTimeInput(
-                    label: "Jusque",
+                    label: Data.translate("to"),
                     initialValue: widget.degree.to != null
                         ? capitalize(dateFormat.format(widget.degree.to))
                         : null,
@@ -98,7 +85,7 @@ class _AddDegreesState extends State<AddDegrees> {
               ],
             ),
             CustomInput(
-              label: "Courte description",
+              label: Data.translate("description"),
               maxLines: 6,
               initialValue: widget.degree.description,
               onChange: (String description) {

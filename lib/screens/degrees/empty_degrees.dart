@@ -1,4 +1,5 @@
 import 'package:cvmakr/components/empty-screen.dart';
+import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/screens/degrees/add_degrees.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class EmptyDegrees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EmptyScreen(
-      mainLabel: "Pas encore de formations !",
+      mainLabel: Data.translate("no_degree_yet"),
       onPressed: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AddDegrees()),

@@ -51,7 +51,7 @@ class _PersonalInformationsState extends State<PersonalInformations> {
             CropAspectRatioPreset.square,
           ],
           androidUiSettings: AndroidUiSettings(
-              toolbarTitle: 'Ajustement',
+              toolbarTitle: Data.translate("adjust"),
               toolbarColor: primaryColor,
               toolbarWidgetColor: Colors.white,
               initAspectRatio: CropAspectRatioPreset.original,
@@ -95,7 +95,7 @@ class _PersonalInformationsState extends State<PersonalInformations> {
     return FormContainer(
       onWillPop: () =>
           data.hasUnsavedChange() ? onBack(context) : noChange(context),
-      title: "Informations personnelles",
+      title: Data.translate("personal_infos"),
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -161,52 +161,52 @@ class _PersonalInformationsState extends State<PersonalInformations> {
                   }
                 }),
             Text(
-              'Ajouter votre photo',
+              Data.translate("add_photo"),
               style: TextStyle(color: Theme.of(context).hintColor),
             ),
             SizedBox(
               height: 24,
             ),
             CustomInput(
-              label: "Nom",
+              label: Data.translate("lastname"),
               initialValue: data.lastName,
               onChange: (lastName) => data.lastName = lastName,
             ),
             CustomInput(
-              label: "Prénom",
+              label: Data.translate("firstname"),
               initialValue: data.firstName,
               onChange: (firstName) => data.firstName = firstName,
             ),
             CustomInput(
-              label: "Âge",
+              label: Data.translate("age"),
               initialValue: data.age,
               onChange: (age) => data.age = age,
               keyboardType: TextInputType.number,
             ),
             CustomInput(
-              label: "Ville",
+              label: Data.translate("city"),
               initialValue: data.city,
               onChange: (city) => data.city = city,
             ),
             CustomInput(
-              label: "Email",
+              label: Data.translate("email"),
               initialValue: data.email,
               onChange: (email) => data.email = email,
             ),
             CustomInput(
-              label: "Téléphone",
+              label: Data.translate("phone"),
               initialValue: data.phone,
               onChange: (phone) => data.phone = phone,
             ),
             CustomInput(
-              label: "A props de moi",
+              label: Data.translate("about"),
               initialValue: data.aboutMe,
               onChange: (aboutMe) => data.aboutMe = aboutMe,
               maxLines: 8,
             ),
             CustomButton(
               width: double.infinity,
-              label: 'Enregistrer',
+              label: Data.translate("save"),
               onPress: () {
                 data.save();
                 Navigator.pop(context);

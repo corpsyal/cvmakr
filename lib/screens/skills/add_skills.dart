@@ -11,13 +11,13 @@ String getButtonLabel(skillMode m) {
   String label;
   switch (m) {
     case skillMode.add:
-      label = "Ajouter";
+      label = "add";
       break;
     case skillMode.edit:
-      label = 'Modifier';
+      label = 'update';
       break;
   }
-  return label;
+  return Data.translate(label);
 }
 
 Future settingModalBottomSheet(context, Skill skill, {skillMode mode}) =>
@@ -46,7 +46,7 @@ Future settingModalBottomSheet(context, Skill skill, {skillMode mode}) =>
                         : MediaQuery.of(context).viewInsets.bottom / 2),
                 child: CustomInput(
                   initialValue: skill.skill,
-                  label: "Compétence",
+                  label: Data.translate("skill"),
                   onChange: (skillValue) {
                     skill.skill = skillValue;
                   },
@@ -67,7 +67,7 @@ Future settingModalBottomSheet(context, Skill skill, {skillMode mode}) =>
                 children: <Widget>[
                   Expanded(
                     child: CustomButton(
-                      label: "Fermer",
+                      label: Data.translate("close"),
                       isSecondary: true,
                       onPress: () {
                         Navigator.pop(context);

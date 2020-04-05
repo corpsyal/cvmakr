@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
-String url = 'http://192.168.1.13:3000/template';
+//String url = 'http://192.168.1.13:3000/template';
 
 class Generate extends StatefulWidget {
   @override
@@ -123,7 +123,7 @@ class _GenerateState extends State<Generate> {
                                       SizedBox(
                                         width: 2,
                                       ),
-                                      Text('Télécharger',
+                                      Text(Data.translate("download"),
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold))
@@ -152,7 +152,7 @@ class _GenerateState extends State<Generate> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: CustomButton(
-                  label: "Je retourne à l'accueil",
+                  label: Data.translate("back_home"),
                   width: double.infinity,
                   isSecondary: true,
                   onPress: () {

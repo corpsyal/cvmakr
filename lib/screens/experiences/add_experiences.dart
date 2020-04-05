@@ -15,13 +15,13 @@ String getButtonLabel(mode m) {
   String label;
   switch (m) {
     case mode.add:
-      label = "Ajouter";
+      label = "add";
       break;
     case mode.edit:
-      label = 'Modifier';
+      label = 'update';
       break;
   }
-  return label;
+  return Data.translate(label);
 }
 
 class AddExperiences extends StatefulWidget {
@@ -52,19 +52,19 @@ class _AddExperiencesState extends State<AddExperiences> {
       onWillPop: () => widget.experience.isEqual(widget.initialExperience)
           ? noChange(context)
           : onBack(context),
-      title: "Ajouter une expérience",
+      title: Data.translate("add_experience"),
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             CustomInput(
-              label: "Poste",
+              label: Data.translate("job"),
               initialValue: widget.experience.job,
               onChange: (String job) {
                 widget.experience.job = job;
               },
             ),
             CustomInput(
-              label: "Entreprise",
+              label: Data.translate("company"),
               initialValue: widget.experience.company,
               onChange: (String company) {
                 widget.experience.company = company;
@@ -81,7 +81,7 @@ class _AddExperiencesState extends State<AddExperiences> {
                         style: TextStyle(fontSize: 10),
                       ),
                       CustomDateTimeInput(
-                          label: "De",
+                          label: Data.translate("from"),
                           initialValue: widget.experience.from != null
                               ? capitalize(
                                   dateFormat.format(widget.experience.from))
@@ -105,11 +105,11 @@ class _AddExperiencesState extends State<AddExperiences> {
                     children: <Widget>[
                       Container(
                           child: Text(
-                        'Vide si poste actuel',
+                        Data.translate("empty_if_now"),
                         style: TextStyle(fontSize: 10, color: secondTextColor),
                       )),
                       CustomDateTimeInput(
-                          label: "Jusque",
+                          label: Data.translate("to"),
                           initialValue: widget.experience.to != null
                               ? capitalize(
                                   dateFormat.format(widget.experience.to))
@@ -127,7 +127,7 @@ class _AddExperiencesState extends State<AddExperiences> {
               ],
             ),
             CustomInput(
-              label: "Courte description",
+              label: Data.translate("description"),
               maxLines: 6,
               initialValue: widget.experience.description,
               onChange: (String description) {

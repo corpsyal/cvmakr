@@ -13,7 +13,7 @@ class Experiences extends StatelessWidget {
     Data data = Provider.of<Data>(context);
     //print(data.experiences);
     return FormContainer(
-        title: "Expériences",
+        title: Data.translate("experiences"),
         child: data.experiences.length > 0
             ? ListExperiences()
             : EmptyExperiences());

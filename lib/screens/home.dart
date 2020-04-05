@@ -1,3 +1,4 @@
+import 'package:cvmakr/components/language-selector.dart';
 import 'package:cvmakr/components/section-item.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
@@ -94,33 +95,33 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 30),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "cv",
-                      //textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40.0,
-                      ),
-                    ),
-                    Text(
-                      "Makr",
-                      //textAlign: TextAlign.center,
-                      style: TextStyle(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  RichText(
+                    text: TextSpan(
+                        text: "cv",
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 40.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Makr",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 40.0,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                  ),
+                  LanguageSelector(
+                    value: Data.locale,
+                    onChange: (newLanguage) => data.switchLanguage(newLanguage),
+                  )
+                ],
               ),
-            ),
-            SizedBox(
-              height: 40,
             ),
             Expanded(
               child: Container(
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                     //crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       SectionItem(
-                        title: 'Informations personnelles',
+                        title: Data.translate("personal_infos"),
                         iconName: Icons.person_outline,
                         onTap: () => Navigator.push(
                           context,
@@ -144,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SectionItem(
-                        title: 'Expériences',
+                        title: Data.translate("experiences"),
                         iconName: Icons.domain,
                         onTap: () => Navigator.push(
                           context,
@@ -153,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SectionItem(
-                        title: 'Formations',
+                        title: Data.translate("education"),
                         iconName: Icons.school,
                         onTap: () => Navigator.push(
                           context,
@@ -161,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SectionItem(
-                        title: 'Compétences',
+                        title: Data.translate("skills"),
                         iconName: Icons.assignment,
                         onTap: () => Navigator.push(
                           context,
@@ -169,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SectionItem(
-                        title: 'Langues',
+                        title: Data.translate("languages"),
                         iconName: Icons.language,
                         onTap: () => Navigator.push(
                           context,
@@ -177,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SectionItem(
-                        title: 'Modèles de CV',
+                        title: Data.translate("models"),
                         iconName: Icons.filter,
                         onTap: () => Navigator.push(
                           context,
@@ -209,7 +210,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.symmetric(vertical: 25.0),
               child: successfulLoad || failedToLoad
                   ? Text(
-                      "Je génère mon CV",
+                      Data.translate("generate"),
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     )

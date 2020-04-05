@@ -13,7 +13,7 @@ class Languages extends StatelessWidget {
     Data data = Provider.of<Data>(context);
     //print(data.experiences);
     return FormContainer(
-      title: "Langues",
+      title: Data.translate("languages"),
       child: data.languages.length > 0 ? ListLanguages() : EmptyLanguages(),
     );
   }

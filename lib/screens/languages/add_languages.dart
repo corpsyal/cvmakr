@@ -11,13 +11,13 @@ String getButtonLabel(languageMode m) {
   String label;
   switch (m) {
     case languageMode.add:
-      label = "Ajouter";
+      label = "add";
       break;
     case languageMode.edit:
-      label = 'Modifier';
+      label = 'update';
       break;
   }
-  return label;
+  return Data.translate(label);
 }
 
 Future settingModalBottomSheet(context, Language language,
@@ -67,7 +67,7 @@ Future settingModalBottomSheet(context, Language language,
                   children: <Widget>[
                     Expanded(
                       child: CustomButton(
-                        label: "Fermer",
+                        label: Data.translate("close"),
                         isSecondary: true,
                         onPress: () {
                           Navigator.pop(context);

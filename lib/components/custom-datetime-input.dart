@@ -1,4 +1,5 @@
 import 'package:cvmakr/components/custom-input.dart';
+import 'package:cvmakr/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 
@@ -18,7 +19,10 @@ class CustomDateTimeInput extends StatelessWidget {
             context,
             //locale: DATETIME_PICKER_LOCALE_DEFAULT,
             dateFormat: 'MMMM-yyyy',
-            locale: DateTimePickerLocale.fr,
+            locale: DateTimePickerLocale.values.firstWhere((locale) {
+              print(locale.toString().split('.').last);
+              return locale.toString().split('.').last == Data.locale;
+            }),
             onConfirm: onConfirm,
           );
         },

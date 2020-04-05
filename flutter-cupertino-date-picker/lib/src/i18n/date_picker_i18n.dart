@@ -36,7 +36,7 @@ abstract class _StringsI18n {
 
 enum DateTimePickerLocale {
   /// English (EN) United States
-  en_us,
+  en,
 
   /// Chinese (ZH) Simplified
   zh_cn,
@@ -80,10 +80,10 @@ enum DateTimePickerLocale {
 
 /// Default value of date locale
 const DateTimePickerLocale DATETIME_PICKER_LOCALE_DEFAULT =
-    DateTimePickerLocale.en_us;
+    DateTimePickerLocale.en;
 
 const Map<DateTimePickerLocale, _StringsI18n> datePickerI18n = {
-  DateTimePickerLocale.en_us: const _StringsEnUs(),
+  DateTimePickerLocale.en: const _StringsEnUs(),
   DateTimePickerLocale.zh_cn: const _StringsZhCn(),
   DateTimePickerLocale.pt_br: const _StringsPtBr(),
   DateTimePickerLocale.es: const _StringsEs(),

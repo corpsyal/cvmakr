@@ -1,5 +1,6 @@
 import 'package:cvmakr/components/add-floatting-button.dart';
 import 'package:cvmakr/consts.dart';
+import 'package:cvmakr/data/data.dart';
 import 'package:flutter/material.dart';
 
 class EmptyScreen extends StatelessWidget {
@@ -36,10 +37,10 @@ class EmptyScreen extends StatelessWidget {
                         ),
                         Column(
                           children: <Widget>[
-                            Text("Vous pouvez en ajouter une en cliquant",
+                            Text(Data.translate("can_add_1"),
                                 style: secondaryTextStyle),
                             Text(
-                              "sur le bouton + juste en dessous",
+                              Data.translate("can_add_2"),
                               style: secondaryTextStyle,
                             )
                           ],

@@ -1,4 +1,5 @@
 import 'package:cvmakr/components/empty-screen.dart';
+import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/data/skill.dart';
 import 'package:cvmakr/screens/skills/add_skills.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class EmptySkills extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EmptyScreen(
-      mainLabel: "Pas encore de compétences !",
+      mainLabel: Data.translate("no_skills_yet"),
       onPressed: () =>
           settingModalBottomSheet(context, Skill(), mode: skillMode.add),
     );

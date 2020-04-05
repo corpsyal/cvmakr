@@ -1,5 +1,3 @@
-import 'package:cvmakr/components/custom-dropdown.dart';
-import 'package:cvmakr/components/language-level-selector.dart';
 import 'package:cvmakr/components/menu.dart';
 import 'package:cvmakr/consts.dart';
 import 'package:cvmakr/data/data.dart';
@@ -37,7 +35,7 @@ class ItemLanguages extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Text(
-                    languages[language.language],
+                    Data.translate(language.language),
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(
@@ -46,7 +44,7 @@ class ItemLanguages extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Text(
-                      getLevelLabel(language.level),
+                      Data.translate(language.level.toString().split('.').last),
                       style: TextStyle(color: Colors.white),
                     ),
                     decoration: BoxDecoration(

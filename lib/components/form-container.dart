@@ -19,7 +19,7 @@ Future<bool> onBack(BuildContext context) {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                "Continuer sans sauvegarder ?",
+                Data.translate("continue"),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -34,7 +34,7 @@ Future<bool> onBack(BuildContext context) {
                     child: Container(
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        "Non",
+                        Data.translate("no"),
                         style: textStyle,
                       ),
                     ),
@@ -47,7 +47,7 @@ Future<bool> onBack(BuildContext context) {
                     },
                     child: Container(
                       padding: EdgeInsets.all(10),
-                      child: Text("Oui", style: textStyle),
+                      child: Text(Data.translate("yes"), style: textStyle),
                     ),
                   ),
                 ],
@@ -75,8 +75,6 @@ class FormContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Data data = Provider.of<Data>(context);
-
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -119,12 +117,15 @@ class FormContainer extends StatelessWidget {
                           SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            title,
-                            //textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
+                          Flexible(
+                            child: Text(
+                              title,
+                              //textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                              ),
                             ),
                           ),
                         ],

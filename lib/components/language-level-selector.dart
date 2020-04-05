@@ -1,25 +1,7 @@
 import 'package:cvmakr/consts.dart';
+import 'package:cvmakr/data/data.dart';
 import 'package:cvmakr/data/language.dart';
 import 'package:flutter/material.dart';
-
-String getLevelLabel(LanguageEnum level) {
-  String label;
-  switch (level) {
-    case LanguageEnum.beginner:
-      label = 'Débutant';
-      break;
-    case LanguageEnum.medium:
-      label = 'Intermédiaire ';
-      break;
-    case LanguageEnum.high:
-      label = 'Maitrise';
-      break;
-    case LanguageEnum.expert:
-      label = 'Bilingue';
-      break;
-  }
-  return label;
-}
 
 class LanguageLevelSelector extends StatelessWidget {
   final Function onChange;
@@ -98,7 +80,7 @@ class _LanguageLevelSelectorItem extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(5))),
           child: Align(
             child: Text(
-              getLevelLabel(value),
+              Data.translate(value.toString().split('.').last),
               style:
                   TextStyle(color: isSelected() ? Colors.white : Colors.black),
             ),

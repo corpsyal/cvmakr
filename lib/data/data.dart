@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cvmakr/data/degree.dart';
 import 'package:cvmakr/data/language.dart';
 import 'package:cvmakr/data/skill.dart';
+import 'package:cvmakr/i18n/i18n.dart';
 import 'package:device_id/device_id.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -14,6 +15,7 @@ import 'experience.dart';
 
 class Data extends ChangeNotifier {
   static const sharedKey = 'data';
+  static String locale = 'fr';
 
   String avatar;
   String firstName;
@@ -48,6 +50,14 @@ class Data extends ChangeNotifier {
     this.languages,
     this.model = '01',
   });
+
+  static String translate(String key) => all[locale][key];
+
+  void switchLanguage(String newLanguage) {
+    locale = newLanguage;
+    save();
+    notifyListeners();
+  }
 
   void initializeFromString(String data, {config}) {
     Map<String, dynamic> json = jsonDecode(data ?? "{}");
@@ -89,7 +99,8 @@ class Data extends ChangeNotifier {
         'degrees': degrees,
         'skills': skills,
         'languages': languages,
-        'model': model
+        'model': model,
+        'locale': locale
       };
 
   void addExperience(Experience experience) {
@@ -195,6 +206,7 @@ class Data extends ChangeNotifier {
       print("DEVICE ID: $device_id");
       final shared = await SharedPreferences.getInstance();
       String savedData = shared.getString(sharedKey);
+      print(savedData);
       //Map<String, dynamic> decodedData = jsonDecode(savedData ?? "{}");
       RemoteConfig config = await Data.setupRemoteConfig();
       return Data.fromMap(savedData, config);
