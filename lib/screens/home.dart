@@ -1,46 +1,127 @@
-import 'package:flutter/material.dart';
-import 'package:cvmakr/consts.dart';
+import 'package:cvmakr/components/language-selector.dart';
 import 'package:cvmakr/components/section-item.dart';
+import 'package:cvmakr/consts.dart';
+import 'package:cvmakr/data/data.dart';
+import 'package:cvmakr/screens/degrees/degrees.dart';
+import 'package:cvmakr/screens/experiences/experiences.dart';
+import 'package:cvmakr/screens/generate.dart';
+import 'package:cvmakr/screens/languages/languages.dart';
+import 'package:cvmakr/screens/models/models.dart';
 import 'package:cvmakr/screens/personal_informations.dart';
+import 'package:cvmakr/screens/skills/skills.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+  childDirected: false,
+  //childDirected: true,
+  nonPersonalizedAds: true,
+  testDevices: ['C7B3B7A312CC82A2420D2850E08A2302'],
+);
+
+class HomePage extends StatefulWidget {
   static const String id = 'home';
 
   @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool successfulLoad = false;
+  bool failedToLoad = false;
+
+  void loadAdd() => RewardedVideoAd.instance.load(
+        // adUnitId: RewardedVideoAd.testAdUnitId,
+        adUnitId: 'ca-app-pub-8039402823283760/1332869913',
+        targetingInfo: targetingInfo,
+      );
+
+  void goToGenerate() => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Generate()),
+      );
+
+  void setListener(RewardedVideoAdEvent event,
+      {String rewardType, int rewardAmount}) {
+    if (event == RewardedVideoAdEvent.loaded) {
+      setState(() {
+        successfulLoad = true;
+      });
+    }
+
+    if (event == RewardedVideoAdEvent.started) {}
+
+    if (event == RewardedVideoAdEvent.rewarded) {
+      goToGenerate();
+    }
+
+    if (event == RewardedVideoAdEvent.failedToLoad) {
+      setState(() {
+        failedToLoad = true;
+      });
+    }
+
+    if ([
+      //RewardedVideoAdEvent.completed,
+      RewardedVideoAdEvent.closed,
+    ].contains(event)) {
+      setState(() {
+        successfulLoad = false;
+        failedToLoad = false;
+      });
+
+      loadAdd();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // loadAdd();
+    RewardedVideoAd.instance.listener = setListener;
+    loadAdd();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Data data = Provider.of<Data>(context);
+
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
         child: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 30),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "cv",
-                      //textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40.0,
-                      ),
-                    ),
-                    Text(
-                      "Makr",
-                      //textAlign: TextAlign.center,
-                      style: TextStyle(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  RichText(
+                    text: TextSpan(
+                        text: "cv",
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 40.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Makr",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 40.0,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ]),
+                  ),
+                  LanguageSelector(
+                    value: Data.locale,
+                    onChange: (newLanguage) => data.switchLanguage(newLanguage),
+                  )
+                ],
               ),
-            ),
-            SizedBox(
-              height: 40,
             ),
             Expanded(
               child: Container(
@@ -55,29 +136,54 @@ class HomePage extends StatelessWidget {
                     //crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       SectionItem(
-                        title: 'Informations personnelles',
+                        title: Data.translate("personal_infos"),
                         iconName: Icons.person_outline,
-                        route: PersonalInformations.id,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PersonalInformations()),
+                        ),
                       ),
                       SectionItem(
-                        title: 'Expériences',
+                        title: Data.translate("experiences"),
                         iconName: Icons.domain,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Experiences()),
+                        ),
                       ),
                       SectionItem(
-                        title: 'Formations',
+                        title: Data.translate("education"),
                         iconName: Icons.school,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Degrees()),
+                        ),
                       ),
                       SectionItem(
-                        title: 'Compétences',
+                        title: Data.translate("skills"),
                         iconName: Icons.assignment,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Skills()),
+                        ),
                       ),
                       SectionItem(
-                        title: 'Langues',
+                        title: Data.translate("languages"),
                         iconName: Icons.language,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Languages()),
+                        ),
                       ),
                       SectionItem(
-                        title: 'Modèles de CV',
+                        title: Data.translate("models"),
                         iconName: Icons.filter,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Models()),
+                        ),
                       ),
                     ],
                   ),
@@ -91,23 +197,36 @@ class HomePage extends StatelessWidget {
         color: Colors.white,
         child: Container(
           padding: EdgeInsets.all(10),
-          child: RaisedButton(
-            //splashColor: Colors.white,
-            //highlightColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(8.0),
+          child: SizedBox(
+            height: 70,
+            child: RaisedButton(
+              //splashColor: Colors.white,
+              //highlightColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(8.0),
+              ),
+              elevation: 0,
+              color: primaryColor,
+              padding: EdgeInsets.symmetric(vertical: 25.0),
+              child: successfulLoad || failedToLoad
+                  ? Text(
+                      Data.translate("generate"),
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )
+                  : SpinKitThreeBounce(
+                      color: Colors.white,
+                      size: 15.0,
+                    ),
+              onPressed: () async {
+                if (successfulLoad)
+                  RewardedVideoAd.instance.show();
+                else if (failedToLoad) {
+                  loadAdd();
+                  goToGenerate();
+                }
+              },
             ),
-            elevation: 0,
-            color: primaryColor,
-            padding: EdgeInsets.symmetric(vertical: 25.0),
-            child: Text(
-              "Je génère mon CV",
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            onPressed: () {
-              // to do
-            },
           ),
         ),
         elevation: 0,

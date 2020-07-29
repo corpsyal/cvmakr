@@ -1,31 +1,42 @@
-import 'dart:ffi';
-
-import 'package:flutter/material.dart';
 import 'package:cvmakr/consts.dart';
+import 'package:flutter/material.dart';
 
 class CustomInput extends StatefulWidget {
   String initialValue;
   String label;
   int maxLines;
   Function onChange;
+  Function onTap;
   TextInputType keyboardType;
+  bool controlledInput;
+  bool enabled;
 
-  CustomInput({this.label, this.maxLines = 1, this.initialValue, this.onChange, this.keyboardType});
+  CustomInput({
+    this.label,
+    this.maxLines = 1,
+    this.initialValue,
+    this.onChange,
+    this.onTap,
+    this.keyboardType,
+    this.controlledInput = false,
+    this.enabled = true,
+  });
 
   @override
   _CustomInputState createState() => _CustomInputState();
 }
 
 class _CustomInputState extends State<CustomInput> {
-  FocusNode _focusNode = FocusNode();
+  FocusNode _focusNode;
   bool isFocused = false;
-  TextEditingController _editingController = TextEditingController();
+  TextEditingController _editingController;
   bool isValid = false;
 
   @override
   void initState() {
     super.initState();
-    _editingController.text = widget.initialValue;
+    _focusNode = FocusNode();
+    _editingController = TextEditingController(text: widget.initialValue);
     isValid = inputIsValid();
     _focusNode.addListener(() {
       setState(() {
@@ -34,93 +45,60 @@ class _CustomInputState extends State<CustomInput> {
     });
   }
 
-  bool inputIsValid() => !_focusNode.hasFocus && _editingController.value.text.isNotEmpty;
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+    _editingController.dispose();
+  }
+
+  bool inputIsValid() =>
+      !_focusNode.hasFocus && _editingController.value.text.isNotEmpty;
+
+  void checkIsValid() {
+    setState(() {
+      isValid = inputIsValid();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.controlledInput) {
+      _editingController.text = widget.initialValue;
+      checkIsValid();
+    }
+
     return Container(
       //height: widget.maxLines == 1 ? 45 : null,
       padding: EdgeInsets.only(top: 5),
       margin: EdgeInsets.only(bottom: 16),
-      child: TextFormField(
+      child: TextField(
+        enabled: widget.enabled,
+        onTap: widget.onTap,
         keyboardType: widget.keyboardType,
         onChanged: widget.onChange,
         maxLines: widget.maxLines,
         controller: _editingController,
         focusNode: _focusNode,
         decoration: InputDecoration(
-          suffixIcon: isValid ? Icon(Icons.check, color: primaryColor,) : null,
+          suffixIcon: isValid
+              ? Icon(
+                  Icons.check,
+                  color: primaryColor,
+                )
+              : null,
           labelText: widget.label,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: inputBorderCorlor,
+              color: inputBorderColor,
               width: 1.0,
             ),
           ),
-
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: primaryColor, width: 1.0),
           ),
-
         ),
       ),
     );
   }
 }
-
-
-
-
-
-/*
-
-class CustomInput extends StatelessWidget {
-  String initialValue;
-  String label;
-  int maxLines;
-  Function onChange;
-  TextInputType keyboardType;
-
-  CustomInput({this.label, this.maxLines = 1, this.initialValue, this.onChange, this.keyboardType});
-
-  FocusNode _focusNode = FocusNode();
-  bool isFocused = false;
-  TextEditingController _editingController = TextEditingController();
-  bool isValid = false;
-
-
-  bool inputIsValid() => !_focusNode.hasFocus && _editingController.value.text.isNotEmpty;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //height: widget.maxLines == 1 ? 45 : null,
-      padding: EdgeInsets.only(top: 5),
-      margin: EdgeInsets.only(bottom: 16),
-      child: TextFormField(
-        keyboardType: keyboardType,
-        onChanged: onChange,
-        maxLines: maxLines,
-        controller: _editingController,
-        focusNode: _focusNode,
-        decoration: InputDecoration(
-          suffixIcon: isValid ? Icon(Icons.check, color: primaryColor,) : null,
-          labelText: label,
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: inputBorderCorlor,
-              width: 1.0,
-            ),
-          ),
-
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: primaryColor, width: 1.0),
-          ),
-
-        ),
-      ),
-    );
-  }
-}
-
- */

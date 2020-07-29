@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "695857302835",
+    "firebase_url": "https://cvmakr-19bc1.firebaseio.com",
+    "project_id": "cvmakr-19bc1",
+    "storage_bucket": "cvmakr-19bc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695857302835:android:ded0ec9155fea4d9aa4246",
+        "android_client_info": {
+          "package_name": "com.cvmakr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695857302835-h8esd6ggu3ffi939j56pqv3s8n2q6vm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_R0yokmw8jTMsUdXPaxPMx9Kvi_vUFg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695857302835-h8esd6ggu3ffi939j56pqv3s8n2q6vm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695857302835:android:33c18b70289442bfaa4246",
+        "android_client_info": {
+          "package_name": "com.example.cvmakr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695857302835-h8esd6ggu3ffi939j56pqv3s8n2q6vm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_R0yokmw8jTMsUdXPaxPMx9Kvi_vUFg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695857302835-h8esd6ggu3ffi939j56pqv3s8n2q6vm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
